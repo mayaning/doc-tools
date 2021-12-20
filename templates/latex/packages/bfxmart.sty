@@ -1,0 +1,397 @@
+\ProvidesPackage{bfxmart}
+
+
+% ***** ****** ****** ****** ******
+% 加载多行注释宏包
+% ***** ****** ****** ****** ******
+\usepackage{verbatim}
+% 使用方法
+\begin{comment}
+  这里是多行注释，这里不会显示到文档里面
+  注释行1
+  注释行2
+  注释行3
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% Latex自定义宏包与类文件的默认搜索路径设置方法
+% ***** ****** ****** ****** ******
+\begin{comment}
+  对于自定义的LaTeX宏包与类，在调用时可以通过在命令\documentclass{}与\usepackage{}
+  命令中指定完整路径或者相对路径，这样确实可以调用，
+  但是编译时总是有烦人的警告信息，让人不爽。还好有一个办法可以解决。
+
+  Linux环境下，LaTex默认宏包与类的搜索路径是由环境变量TEXMFHOME控制的，
+  可以通过如下命令查看这个环境变量的默认配置：
+    kpsewhich -var-value=TEXMFHOME
+  结果一般为$\$$HOME/texmf, 这个目录一般不存在，可以创建它，或者修改环境变量TEXMFHOME的值。
+  我们采取后一种：
+  修改\$HOME/.bashrc文件，加入如下内容:
+    TEXMFHOME=\$HOME/Documents/texmf
+    export TEXMFHOME
+  执行source \$HOME/.bashrc使配置生效。
+  创建目录：
+    mkdir -p \$TEXMFHOME/tex/latex/commonstuff
+  将自定义的宏包与类放出上面的目录即可。
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 加载中文宏包
+% ***** ****** ****** ****** ******
+\usepackage{ctex}
+\begin{comment}
+  Latex有三种方式支持中文：
+  1. CJKutf8
+    CJK有两个基本宏包：CJK和CJKutf8，其中后者面向utf-8编码，
+    其一般使用方法如下：
+    \usepackage{CJKutf8}
+    \begin{document}
+    \begin{CJK}{UTF8}{}
+    …
+    \end{CJK}
+    \end{document}
+    方式1使用pdflatex编译tex文件。
+  2.CTEX的UTF8选项
+    上面的 CJKutf8 只提供了两种字体，可选择的余地太小，
+    我们可以直接用 UTF8 选项使CTEX 支持 utf-8 编码，
+    利用 CTEX 丰富的字体和中文设置可以更好地编辑 Latex 中文文本，
+    其语法格式为：
+    \documentclass[UTF8]{article}
+    \usepackage{ctex}
+    或者，直接使用ctexart
+    \documentclass[UTF8]{ctexart}
+    方式2使用pdflatex编译
+  3. xelatex编译
+    XeTeX 是一种使用 Unicode 的 TeX 排版引擎，它原生的支持 Unicode ，
+    并默认其输入文件为 utf-8 编码。XeTeX 可以在不进行额外配置的情况下
+    直接使用操作系统中安装的字体。XeLaTeX 是使用 LaTeX 的排版引擎，
+    也有上述 XeTeX 的优点，命令下直接使用 xelatex ***.tex 
+    就会产生对应的 PDF 文件。以下是一个简单的xelatex 编译 ctex 的例子
+    （同样把 tex 文件保存成 utf-8 格式）
+    % xelatex_test.tex
+    \documentclass{article}
+    \usepackage{ctex}
+    \begin{document}
+    这是一个CTEX的utf-8编码例子，{\kaishu 这里是楷体显示}，
+    {\songti 这里是宋体显示}，{\heiti 这里是黑体显示}，{\fangsong 这里是仿宋显示}。
+    \end{document}
+    明眼的同学一下就发现了，这货跟上面第2条中 ctex 的代码相比，就少了一个 UTF8 选项啊！
+    额，表面看是这样的，但是如果如果直接把 xelatex_test.tex 用 pdflatex 编译，
+    系统就会报错。这是因为不加 UTF8 选项，pdflatex 默然按照 GBK 编码处理 tex 文件，
+    而这个文件我们是用 utf-8 编码的，这样就会造成解码失败。这里直接用 xelatex 编译，
+    就会编译成功，因为 xelatex 的默认输入文件是 utf-8 编码。
+  版权声明：本文为CSDN博主「_zZhe」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+  原文链接：https://blog.csdn.net/z_feng12489/article/details/90449495
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 设置中文字体
+% ***** ****** ****** ****** ******
+% 使用xelatex好像会使用系统字体，这里暂不设置
+\begin{comment}
+  方法1：
+    \CJKfontspec{Noto Serif CJK SC}
+    \setCJKfamilyfont{Note SC}{Noto Serif CJK SC}
+    \CJKfamily{Note SC}                %配合\setCJKfamilyfont
+  方法2:
+    \setCJKmainfont[BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]{FandolSong-Regular.otf}
+    \setCJKsansfont[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
+    \setCJKmonofont{FandolFang-Regular.otf}
+    % fandol字体的链接如下：
+    % https://www.ctan.org/tex-archive/fonts/fandol/
+\end{comment}
+
+% ***** ****** ****** ****** ******
+% 颜色设置
+% ***** ****** ****** ****** ******
+\usepackage[x11names]{xcolor}
+\begin{comment}
+xcolor宏包中预定义的颜色有: 
+    * 19种基本颜色、
+    * 68种dvips颜色、
+    * 151种SVG颜色、
+    * 317种Unix/X11颜色，
+如果要使用后三类颜色，引用宏包时需加相应预定义颜色集合选项:
+\usepackage[dvipsnames]{xcolor}
+\usepackage[svgnames]{xcolor}
+\usepackage[x11names]{xcolor}
+
+% 黑底白字
+\colorbox{Black}{\color{White}White}
+% 红框绿背景
+\fcolorbox{Red}{Green}{红框绿背景} 
+
+\end{comment}
+
+% ***** ****** ****** ****** ******
+% 代码块配置
+% ***** ****** ****** ****** ******
+\usepackage{listings}
+\lstset{
+  backgroundcolor=\color{LightBlue1},   % 选择代码背景，必须加上\ usepackage {color}或\ usepackage {xcolor}.
+  basicstyle=\footnotesize,             % 基本代码风格
+  keywordstyle=\color{blue},       % 关键字显示风格.
+  commentstyle=\color[cmyk]{1,0,1,0},    
+                                   % 设置注释格式
+  stringstyle=\color{gray},        % string literal style
+  flexiblecolumns,                 % ????
+  breakatwhitespace=false,         % 设置是否当且仅当在空白处自动中断.
+  breaklines=true,                 % 设置自动断行.
+  captionpos=b,                    % 设置标题位置. b指在下面，t指在上面
+  deletekeywords={...},            % 是否删除给定语言的关键词.
+  escapeinside={\%*}{*)},          % 是否在代码中添加LaTex, 在%*和*)之间的代码为latex代码
+  extendedchars=false,             % 是否允许使用非ASCII字符; 仅适用于8位编码，不适用于UTF-8.
+                                   % 设置为False 解决代码跨页时，章节标题，页眉等汉字不显示的问题
+  frame=single,	                   % 给代码区添加边框.
+  framexleftmargin=8mm,            % 设置代码距边框的左边距
+  keepspaces=true,                 % 保留空格（useful for keeping indentation of code (possibly needs columns=flexible).
+  %language=Octave,                % 使用的语言.
+  morekeywords={*,...},            % 是否需要添加其他的关键词.
+  numbers=left,                    % 给代码添加行号，可取值none, left, right.
+  numbersep=5mm,                   % 设置行号与代码之间的间隔
+  numberstyle=\tiny\color{gray},   % 行号的字号和颜色
+  rulecolor=\color{black},         % 边框颜色，如果没有设置，框架颜色可以在非黑色文本中的换行符上更改（例如 text (e.g. comments (green here))）
+  showspaces=false,                % 显示每个地方添加特定下划线的空格; 覆盖了'showtringspaces'
+  showstringspaces=false,          % 仅在字符串中允许空格
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  tabsize=4,                       % 将默认tab设置为4个空格
+  %title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
+  xleftmargin=0.5cm,xrightmargin=0.5cm, aboveskip=0.2cm
+                                   % 设置边距, 这个边距不是相对于实际页边的位置,
+                                   % 而是从真正可写的位置开始算的。也就是实际距
+                                   % 页边的距离为: 全局边距+此处设置的值
+}
+\begin{comment}
+  使用方法：
+  方法1：
+    \begin{lstlisting}[language=C]
+      some code
+    \end{lstlisting}
+  方法2：
+    \lstinputlisting[language=Python, caption={Listing caption}]{source_filename.py}
+    还可以指定文件中代码的起止位置
+    \lstinputlisting[language=Python，firstline=37，lastline=45]{source_filename.py}
+  方法3：
+    在行内使用，columes=fixed选项不知道有什么用, 行内\lstinline生成的内容超长会
+    自动换行
+    \lstinline[columns=fixed]{declare}
+
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 设置页面边距
+% ***** ****** ****** ****** ******
+\usepackage{geometry}
+\geometry{a4paper,left=2.54cm,right=3.18cm,top=3.18cm,bottom=2.54cm}
+\begin{comment}
+    很多latex模板都将页面边距设置好了，自己不用怎么修改。但有时候也需要自己来
+    设置页边距，查阅了相关资料，发现使用 geometry 宏包可以方便地调整页边距。
+    用法如下:
+        \usepackage{geometry}
+        \geometry{a4paper,scale=0.8}
+    上面命令设置了纸张为a4 纸，并且版心占页面长度的比例为80\%；
+    scale也可以改为ratio，表示版面边距占页面长度的比例。
+    该宏包还可以设置页面的上下左右边距，例如：
+        \geometry{a4paper,left=2cm,right=2cm,top=1cm,bottom=1cm}
+\end{comment}
+
+% ***** ****** ****** ****** ******
+% 数学公式
+% ***** ****** ****** ****** ******
+\usepackage{amsmath}
+\usepackage{amssymb}
+\begin{comment}
+    gather环境分行排版并且有编号。使用\\命令换行
+    \begin{gather}
+        a + b = b + a   \\
+        ab  ba
+    \end{gather}
+    gather*环境没有编号
+    \begin{gather*}
+        a + b = b + a   \\
+        3 \times 5 = 5 \times 3
+    \end{gather*}
+    在gather环境中使用\notag命令组织编号
+    \begin{gather}
+        a ^2 + b^2 = c^2  \notag  \\
+        5 ^2 +12^2 =13^2  \notag  \\
+        4^2 +3^2 =5^2
+    \end{gather}
+    使用align和align*环境(用&进行对齐),
+    对齐位置由&符号指定, 按等号对齐，按照起始位置对齐
+    带编号示例
+    \begin{align}
+        x & = t +\cos t+1 \\
+        y & = 2 \sin t
+    \end{align}
+    不带编号示例
+    \begin{align*}
+        x & = t & x &=\cos t      & x &=t \\
+        y & = 2t& y &= \sin (t+1) & y &= \sin t
+    \end{align*}
+    实现一个公式的多行排版
+    split 环境 (对其采用align环境的方式，编号在中间)
+    \begin{equation}
+        \begin{split}
+            \cos 2x &= \cos^2 x - \sin ^2 x\\
+                    &= 2\cos^2 x-1
+        \end{split}
+    \end{equation}
+    分段函数排版使用cases环境
+    每行公式中使用 & 分割为两部分通常表示值和后面的条件部分
+    使用\text或\mbox命令在公式中无法实现中文排版
+    \begin{equation}
+        D(x) =  \begin{cases}
+            1 ,& \mbox{如果} x \in \mathbb{Q}; \\
+            0 ,& \text{如果} x \in  \mathbb{R}\setminus\mathbb{Q}.
+        \end{cases}
+    \end{equation}
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 图片宏包
+% ***** ****** ****** ****** ******
+\usepackage{graphicx}
+\begin{comment}
+    用法：
+    1. 使用\includegraphics命令进行插图
+        \includegraphics[scale=0.3]{XDU.jpg}
+    2. 使用浮体
+        \begin{figure}[ht]
+            \centering
+            \includegraphics[scale=0.3]{XDU.jpg}
+            \caption{this is my head portrait}
+            \label{figl}
+        \end{figure}
+    3. 相对路径添加图片：
+    \begin{figure}[ht]
+        \centering 
+        %这个是在LaTeX文件夹中的相对路径
+        \includegraphics[scale=0.6]{figs/XDU.jpg}
+        \caption{Relative Path}
+        \label{fig2}
+    \end{figure}
+    4. 绝对路径添加图片：
+    \begin{figure}[ht]
+        \centering
+        %这个是图片的绝对路径
+        \includegraphics[scale=0.6]{C:/LatexWS/figs/路径XDU.jpg}
+        \caption{Absolute Path}
+        \label{fig3}
+    \end{figure}
+    5. 指定路径后添加图片：
+    graphicx宏包有一个特别有用的命令，graphicspat{}{}，
+    它可以指定我们图片的路径。
+    %表示在当前目录下存放有一个图片，下次插入图片从此路径开始
+    \graphicspath{{figs/}}
+    \begin{figure}[ht]
+        \centering
+        %从刚才指定的路径中调用XDU.jpg图片
+        \includegraphics[scale=0.6]{XDU.jpg}
+        \caption{Selected Path}
+        \label{fig4}
+    \end{figure}
+    6. 跨双栏插入图片：
+    有时在写论文时，论文的的版面是左右双栏，在figure后面加*号这样就可以把单栏
+    的图片双栏显示。
+    \begin{figure*}[ht]
+        \centering
+        \includegraphics[scale=0.6]{XDU.jpg}
+        \caption{Double Column}
+        \label{fig5}
+    \end{figure*}
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 限制浮动位置
+% ***** ****** ****** ****** ******
+\usepackage[section]{placeins}
+\begin{comment}
+    为了避免浮动对象（图形和表格等）被排版到下一节中，可以采用 placeins宏包。
+    使用\usepackage{placeins}命令调用该宏包，然后在浮动对象不能跨越的地方
+    （如“\section”之前）插入命令 “\FloatBarrier” ，这样LaTex会将所有未排版的
+    浮动对象排版完后，再继续排版后面的内容。
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 链接宏包
+% ***** ****** ****** ****** ******
+\usepackage[hidelinks]{hyperref}
+\begin{comment}
+    在所有引用处插入链接，可以跳转到被引用位置，如从目录跳转至相应章节，从图片引
+    用位置跳转到图片等。
+    hidelinks参数用于去掉hyperref默认在链接上加入的红框
+\end{comment}
+
+% ***** ****** ****** ****** ******
+% TODO list
+% ***** ****** ****** ****** ******
+% for to-do-list, check box
+\usepackage{enumitem,amssymb}
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+% for check symbol 
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}\hspace{-2.5pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
+\begin{comment}
+    使用方法:
+    \begin{todolist}
+		\item [\wontfix] 休息休息
+		\item [\done] 吃饭
+		\item [\done] 学习
+		\item 8点开始学习。
+		\item 待完成。。。
+	\end{todolist}
+\end{comment}
+
+% ***** ****** ****** ****** ******
+% 其它宏包
+% ***** ****** ****** ****** ******
+% 表格制作
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{diagbox}
+\usepackage{threeparttable}
+\begin{comment}
+    使用方法：
+    \begin{table}
+        \centering
+        \begin{tabular}{l|l|l|l|l|l}
+            \hline
+            item1   &item2  &item3  &item4  &item5  \ \hline
+            item1   &item2  &item3  &item4  &item5  \ \hline
+        \end{tabular}
+        \caption{Table Example}
+    \end{table}
+\end{comment}
+
+% ***** ****** ****** ****** ******
+% 字体说明
+% ***** ****** ****** ****** ******
+\begin{comment}
+    \tiny 
+    \scriptsize
+    \footnotesize
+    \small
+    \normalsize
+    \large
+    \Large
+    \LARGE
+    \huge
+    \Huge
+\end{comment}
+
