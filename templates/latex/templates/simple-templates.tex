@@ -10,11 +10,46 @@
 % ***** ***** ***** ***** *****
 % 标题
 % ***** ***** ***** ***** *****
-\title{标题}                        
-\author{马亚宁}
-\date{\today}
-\maketitle     
-\clearpage
+% 标题类型一
+%\title{标题}
+%\author{马亚宁}
+%\date{\today}
+%\maketitle
+%\clearpage
+
+% 标题类型二
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+
+        \Huge
+        \textbf{标题一}
+
+        \vspace{0.5cm}
+        \LARGE
+        标题二
+
+        \vspace{1.5cm}
+
+        \textbf{标题三}
+
+
+        \vfill
+
+        文档描述
+
+        \vspace{0.8cm}
+
+        \includegraphics[width=0.4\textwidth]{figures/0000-Photo.jpg}
+
+        \Large
+        Depart 1\\
+        Depart 2\\
+        Depart 3\\
+        \today
+
+    \end{center}
+\end{titlepage}
 
 
 % ***** ***** ***** ***** *****
@@ -29,6 +64,7 @@
 % ***** ***** ***** ***** *****
 % 目录
 % ***** ***** ***** ***** *****
+\setcounter{tocdepth}{2} %目录深度为2
 \tableofcontents  %表示目录部分开始
 \clearpage
 

@@ -395,3 +395,76 @@ xcolor宏包中预定义的颜色有:
     \Huge
 \end{comment}
 
+% ***** ****** ****** ****** ******
+% 设置字体颜色的方法 
+% ***** ****** ****** ****** ******
+\begin{comment}
+    方法一: 直接使用定义好的颜色, 其中textcolor{...}中包含的是系统定义好的颜色
+    \usepackage{color}
+    \textcolor{red/blue/green/black/white/cyan/magenta/yellow}{text}
+    % 或者
+    {\color{orange}橙色}
+
+    方法二: 组合red、green和blue的值合成我们想要的颜色
+    \usepackage{color}
+    % {r,g,b}代表red、green和blue三种颜色的组合，取值范围为[0-1]
+    \textcolor[rgb]{r,g,b}{text}
+    % {R,G,B}代表red、green和blue三种颜色的组合，取值范围为[0-255]
+    \textcolor[RGB]{R,G,B}{text}
+ 
+    方法三: 定义一种颜色，直接调用
+    \usepackage{color}
+    \definecolor{ColorName}{rgb}{r,g,b} % 这时r/g/b的定义域就在[0-1]。
+    \definecolor{ColorName}{RGB}{R,G,B} % 这时R/G/B的定义域就在[0-255]。
+    % 这里为颜色定义了名称ColorName，下面可以直接调用这个颜色方案
+    \textcolor{ColorName}{text}
+
+    其它命令:
+    1. 设置背景:
+    \pagecolor{yellow}          %设置背景色为黄色
+    2. 颜色框:
+    \colorbox{red}{\color{black}红底黑字}
+    \fcolorbox{red}{green}{红框绿背景} %框色+背景色
+\end{comment}
+
+% ***** ****** ****** ****** ******
+% Font Awesome图标
+% ***** ****** ****** ****** ******
+\begin{comment}
+    FontAwesome是一个latex图标库，提供了600+个图标，常用于简历、非正式报告等模板。
+    FontAwesome可通过XELaTeX、LuaLaTeX、PDFLaTeX编译。 
+    调用方式如下：
+    首先导入fontawesome包
+    \usepackage{fontawesome}
+
+    官方主页: https://fontawesome.com/
+    Github: https://github.com/xdanaux/fontawesome-latex
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 自定义命令
+% ***** ****** ****** ****** ******
+\begin{comment}
+    在写 LaTeX 文档的时候，我们有时候想使用自定义的命令来简化一些复杂的、需要重
+    复使用的、带有参数的命令（或者命令的组合）。
+    命令: 
+    \newcommand{}[]{}
+    我们可以看到该命令有三个参数：
+    第一个参数定义了命令的名字，例如，\X
+    第二个参数定义了新命令的参数的数量，例如，1。（最多支持九个参数）
+    第三个参数定义了新命令的具体内容，例如，\textbf{#1}，其中#1代表的是第一个参
+    数，以此类推#2……
+    示例1:
+    \newcommand{\X}[1]{ {\color{red}\textbf{#1} $\checkmark$} }
+    Hi, \X{I'm Xovee Xu}, do you like this blog?
+    示例2:
+    \newcommand{\Name}[2]{ My name is #1 #2. }
+    \Name{Xovee}{Xu}
+\end{comment}
+% 定义新命令用于格式化告警
+%\newcommand{\warnning}[1]{\colorbox{red}{\color{black}\textbf{Warnning:}} #1}
+\newcommand{\warnning}[1]{\fcolorbox{red}{white}{\textbf{WARNNING}} #1}
+% 定义新命令用于格式化注意事项
+\newcommand{\notice}[1]{\colorbox{yellow}{\color{black}\textbf{NOTICE}} #1}
+
