@@ -18,22 +18,22 @@
 % Latex自定义宏包与类文件的默认搜索路径设置方法
 % ***** ****** ****** ****** ******
 \begin{comment}
-  对于自定义的LaTeX宏包与类，在调用时可以通过在命令\documentclass{}与\usepackage{}
-  命令中指定完整路径或者相对路径，这样确实可以调用，
-  但是编译时总是有烦人的警告信息，让人不爽。还好有一个办法可以解决。
+    对于自定义的LaTeX宏包与类，在调用时可以通过在命令\documentclass{}与
+    \usepackage{}命令中指定完整路径或者相对路径，这样确实可以调用，
+    但是编译时总是有烦人的警告信息，让人不爽。还好有一个办法可以解决。
 
-  Linux环境下，LaTex默认宏包与类的搜索路径是由环境变量TEXMFHOME控制的，
-  可以通过如下命令查看这个环境变量的默认配置：
-    kpsewhich -var-value=TEXMFHOME
-  结果一般为$\$$HOME/texmf, 这个目录一般不存在，可以创建它，或者修改环境变量TEXMFHOME的值。
-  我们采取后一种：
-  修改\$HOME/.bashrc文件，加入如下内容:
-    TEXMFHOME=\$HOME/Documents/texmf
-    export TEXMFHOME
-  执行source \$HOME/.bashrc使配置生效。
-  创建目录：
-    mkdir -p \$TEXMFHOME/tex/latex/commonstuff
-  将自定义的宏包与类放出上面的目录即可。
+    Linux环境下，LaTex默认宏包与类的搜索路径是由环境变量TEXMFHOME控制的，
+    可以通过如下命令查看这个环境变量的默认配置：
+        kpsewhich -var-value=TEXMFHOME
+    结果一般为$\$$HOME/texmf, 这个目录一般不存在，可以创建它，或者修改环境变量
+    TEXMFHOME的值。我们采取后一种：
+    修改\$HOME/.bashrc文件，加入如下内容:
+        TEXMFHOME=\$HOME/Documents/texmf
+        export TEXMFHOME
+    执行source \$HOME/.bashrc使配置生效。
+    创建目录：
+        mkdir -p \$TEXMFHOME/tex/latex/commonstuff
+    将自定义的宏包与类放出上面的目录即可。
 \end{comment}
 
 
@@ -324,11 +324,48 @@ xcolor宏包中预定义的颜色有:
 % ***** ****** ****** ****** ******
 % 链接宏包
 % ***** ****** ****** ****** ******
-\usepackage[hidelinks]{hyperref}
+\usepackage[xetex,      % 生成链接的后端驱动，详情见CTAN hyperref手册
+    hidelinks,          % 隐藏链接的颜色和边框
+    CJKbookmarks=true   %支持中文书签
+    ]{hyperref}
 \begin{comment}
     在所有引用处插入链接，可以跳转到被引用位置，如从目录跳转至相应章节，从图片引
     用位置跳转到图片等。
     hidelinks参数用于去掉hyperref默认在链接上加入的红框
+    使用方法：
+    % The text is made a hyperlink to the URL; this must be a full URL (relative
+    % to the base URL, if that is defined). The special characters # and ˜ do
+    % not need to be escaped in any way (unless the command is used in the
+    % argument of another command). 
+    \href[options]{URL}{text}
+    % Similar to \href{URL}{\nolinkurl{URL}}. Depending on the driver \href also
+    % tries to detect the link type. Thus the result can be a url link, file
+    % link, …
+    \url{URL}
+    % Write URL in the same way as \url, without creating a hyperlink.
+    \nolinkurl{URL}
+    % A base URL is established, which is prepended to other specified URLs, to
+    % make it easier to write portable documents.
+    \hyperbaseurl{URL}
+    % The link to the image referenced by the URL is inserted, using text as
+    % the anchor. 
+    \hyperimage{imageURL}{text}
+    % A target area of the document (the text) is marked, and given the name
+    % category.name
+    \hyperdef{category}{name}{text} 
+    % text is made into a link to URL#category.name
+    \hyperref{URL}{category}{name}{text} 
+    % text is made into a link to the same place as \ref{label} would be linked.
+    \hyperref[label]{text}
+    % A simple internal link is created with \hypertarget, with two parameters
+    % of an anchor name, and anchor text. \hyperlink has two arguments, the name
+    % of a hypertext object defined somewhere by \hypertarget, and the text
+    % which be used as the link on the page.
+    % Note that in HTML parlance, the \hyperlink command inserts a notional # in
+    % front of each link, making it relative to the current testdocument; \href
+    % expects a full URL
+    \hyperlink{name}{text}
+    \hypertarget{name}{text}
 \end{comment}
 
 % ***** ****** ****** ****** ******
