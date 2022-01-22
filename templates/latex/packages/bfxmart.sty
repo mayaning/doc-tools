@@ -36,6 +36,27 @@
     将自定义的宏包与类放出上面的目录即可。
 \end{comment}
 
+% ***** ****** ****** ****** ******
+% Latex多文件工程
+% ***** ****** ****** ****** ******
+\usepackage{import}
+\begin{comment}
+    在一个tex文件中，可以使用\input{filepath/filename}或
+    \inlude{filepath/filename}来包含其它的tex文件。
+
+    另外一种方法是使用import包来包含其它tex文件，该包提供两个命令：
+    1. \import{filepath}{filename}或\inputfrom{filepath}{filename}
+    2. \subimport{filepath}{filename}或\subinputfrom{filepath}{filename}
+    \import命令中的filepath可以是绝对路径，也可以是当前工作目录的相关路径。
+    \subimport命令中的filepath是相对于\import命令中filepath的相对路径， 如下：
+    \import{abc/}{one}   % 包含当前工作目录/abc/one.tex文件
+    \subimport{def}{two} % 包含当前工作目录/abc/def/two.tex文件
+
+    这两种方式有个限制条件，即被包含的tex文件不能用tex文件头(如
+    \begin{document}...\end{document}等)。
+
+\end{comment}
+
 
 % ***** ****** ****** ****** ******
 % 加载中文宏包
