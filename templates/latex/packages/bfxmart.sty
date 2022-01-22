@@ -265,7 +265,8 @@ xcolor宏包中预定义的颜色有:
     2. 使用浮体
         \begin{figure}[ht]
             \centering
-            \includegraphics[scale=0.3]{XDU.jpg}
+            %\includegraphics[scale=0.3]{XDU.jpg}
+            \includegraphics[width=0.95\textwidth]{XDU.jpg}
             \caption{this is my head portrait}
             \label{figl}
         \end{figure}
@@ -273,7 +274,8 @@ xcolor宏包中预定义的颜色有:
     \begin{figure}[ht]
         \centering 
         %这个是在LaTeX文件夹中的相对路径
-        \includegraphics[scale=0.6]{figs/XDU.jpg}
+        %\includegraphics[scale=0.6]{figs/XDU.jpg}
+        \includegraphics[width=0.95\textwidth]{figs/XDU.jpg}
         \caption{Relative Path}
         \label{fig2}
     \end{figure}
@@ -281,7 +283,8 @@ xcolor宏包中预定义的颜色有:
     \begin{figure}[ht]
         \centering
         %这个是图片的绝对路径
-        \includegraphics[scale=0.6]{C:/LatexWS/figs/路径XDU.jpg}
+        %\includegraphics[scale=0.6]{C:/LatexWS/figs/路径XDU.jpg}
+        \includegraphics[width=0.95\textwidth]{C:/LatexWS/figs/路径XDU.jpg}
         \caption{Absolute Path}
         \label{fig3}
     \end{figure}
@@ -293,7 +296,8 @@ xcolor宏包中预定义的颜色有:
     \begin{figure}[ht]
         \centering
         %从刚才指定的路径中调用XDU.jpg图片
-        \includegraphics[scale=0.6]{XDU.jpg}
+        %\includegraphics[scale=0.6]{XDU.jpg}
+        \includegraphics[width=0.95\textwidth]{XDU.jpg}
         \caption{Selected Path}
         \label{fig4}
     \end{figure}
@@ -302,7 +306,8 @@ xcolor宏包中预定义的颜色有:
     的图片双栏显示。
     \begin{figure*}[ht]
         \centering
-        \includegraphics[scale=0.6]{XDU.jpg}
+        %\includegraphics[scale=0.6]{XDU.jpg}
+        \includegraphics[width=0.95\textwidth]{XDU.jpg}
         \caption{Double Column}
         \label{fig5}
     \end{figure*}
@@ -394,9 +399,8 @@ xcolor宏包中预定义的颜色有:
 \end{comment}
 
 % ***** ****** ****** ****** ******
-% 其它宏包
-% ***** ****** ****** ****** ******
 % 表格制作
+% ***** ****** ****** ****** ******
 \usepackage{tabularx}
 \usepackage{colortbl}
 \usepackage{booktabs}
@@ -476,6 +480,23 @@ xcolor宏包中预定义的颜色有:
 
     官方主页: https://fontawesome.com/
     Github: https://github.com/xdanaux/fontawesome-latex
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 脚注，边注
+% ***** ****** ****** ****** ******
+\usepackage{marginnote}
+\begin{comment}
+    1. 脚注: 
+    命令: \footnote{脚注内容}
+
+    2. 边注：
+    命令:\marginpar{边注内容}
+    还可利用marginnote宏包的\marginnote命令，由于不使用浮动体，用得更广
+
+    切换边注的方向，使用\reversemarginpar和\normalmarginpar命令
+
 \end{comment}
 
 
