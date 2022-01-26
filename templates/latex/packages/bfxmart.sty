@@ -36,6 +36,7 @@
     将自定义的宏包与类放出上面的目录即可。
 \end{comment}
 
+
 % ***** ****** ****** ****** ******
 % Latex多文件工程
 % ***** ****** ****** ****** ******
@@ -128,30 +129,102 @@
     % https://www.ctan.org/tex-archive/fonts/fandol/
 \end{comment}
 
+
 % ***** ****** ****** ****** ******
 % 颜色设置
 % ***** ****** ****** ****** ******
 \usepackage[x11names]{xcolor}
 \begin{comment}
-xcolor宏包中预定义的颜色有: 
-    * 19种基本颜色、
-    * 68种dvips颜色、
-    * 151种SVG颜色、
-    * 317种Unix/X11颜色，
-如果要使用后三类颜色，引用宏包时需加相应预定义颜色集合选项:
-\usepackage[dvipsnames]{xcolor}
-\usepackage[svgnames]{xcolor}
-\usepackage[x11names]{xcolor}
+  xcolor宏包中预定义的颜色有: 
+      * 19种基本颜色、
+      * 68种dvips颜色、
+      * 151种SVG颜色、
+      * 317种Unix/X11颜色，
+  如果要使用后三类颜色，引用宏包时需加相应预定义颜色集合选项:
+  \usepackage[svgnames]{xcolor}
+  \usepackage[x11names]{xcolor}
+  \usepackage[dvipsnames]{xcolor}
 
-% 黑底白字
-\colorbox{Black}{\color{White}White}
-% 红框绿背景
-\fcolorbox{Red}{Green}{红框绿背景} 
+  % 黑底白字
+  \colorbox{Black}{\color{White}White}
+  % 红框绿背景
+  \fcolorbox{Red}{Green}{红框绿背景} 
+\end{comment}
 
+
+
+% ***** ****** ****** ****** ******
+% 链接宏包
+% ***** ****** ****** ****** ******
+\usepackage[xetex,      % 生成链接的后端驱动，详情见CTAN hyperref手册
+    hidelinks,          % 隐藏链接的颜色和边框
+    CJKbookmarks=true   %支持中文书签
+    ]{hyperref}
+\begin{comment}
+    在所有引用处插入链接，可以跳转到被引用位置，如从目录跳转至相应章节，从图片引
+    用位置跳转到图片等。
+    hidelinks参数用于去掉hyperref默认在链接上加入的红框
+    使用方法：
+    % The text is made a hyperlink to the URL; this must be a full URL (relative
+    % to the base URL, if that is defined). The special characters # and ˜ do
+    % not need to be escaped in any way (unless the command is used in the
+    % argument of another command). 
+    \href[options]{URL}{text}
+    % Similar to \href{URL}{\nolinkurl{URL}}. Depending on the driver \href also
+    % tries to detect the link type. Thus the result can be a url link, file
+    % link, …
+    \url{URL}
+    % Write URL in the same way as \url, without creating a hyperlink.
+    \nolinkurl{URL}
+    % A base URL is established, which is prepended to other specified URLs, to
+    % make it easier to write portable documents.
+    \hyperbaseurl{URL}
+    % The link to the image referenced by the URL is inserted, using text as
+    % the anchor. 
+    \hyperimage{imageURL}{text}
+    % A target area of the document (the text) is marked, and given the name
+    % category.name
+    \hyperdef{category}{name}{text} 
+    % text is made into a link to URL#category.name
+    \hyperref{URL}{category}{name}{text} 
+    % text is made into a link to the same place as \ref{label} would be linked.
+    \hyperref[label]{text}
+    % A simple internal link is created with \hypertarget, with two parameters
+    % of an anchor name, and anchor text. \hyperlink has two arguments, the name
+    % of a hypertext object defined somewhere by \hypertarget, and the text
+    % which be used as the link on the page.
+    % Note that in HTML parlance, the \hyperlink command inserts a notional # in
+    % front of each link, making it relative to the current testdocument; \href
+    % expects a full URL
+    \hyperlink{name}{text}
+    \hypertarget{name}{text}
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 表格制作
+% ***** ****** ****** ****** ******
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{diagbox}
+\usepackage{threeparttable}
+\begin{comment}
+    使用方法：
+    \begin{table}
+        \centering
+        \begin{tabular}{l|l|l|l|l|l}
+            \hline
+            item1   &item2  &item3  &item4  &item5  \ \hline
+            item1   &item2  &item3  &item4  &item5  \ \hline
+        \end{tabular}
+        \caption{Table Example}
+    \end{table}
 \end{comment}
 
 % ***** ****** ****** ****** ******
-% 代码块配置
+% 代码块配置 - listings
 % ***** ****** ****** ****** ******
 \usepackage{listings}
 \lstset{
@@ -203,7 +276,172 @@ xcolor宏包中预定义的颜色有:
     在行内使用，columes=fixed选项不知道有什么用, 行内\lstinline生成的内容超长会
     自动换行
     \lstinline[columns=fixed]{declare}
+\end{comment}
 
+
+% ***** ****** ****** ****** ******
+% 代码块配置 - minted
+% ***** ****** ****** ****** ******
+% outpudir用于向minted传递latex系列命令的-output-dir， 如果在latex命令行指定了这
+% 个参数，需要设置outputdir选项，否则minted会报找不到文件的错误
+\usepackage[outputdir=outputs]{minted} 
+\usepackage{ifthen}
+\usepackage{fontawesome5}
+\usepackage[many]{tcolorbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{cleveref}
+
+% minted的选项
+\setminted{
+  encoding=utf8,             % 代码字符编码
+  breaklines=true,           % 允许代码换行
+  breakbytokenanywhere=true, % 允许在记号间换行，不允许在记号内部换行
+  breakautoindent=true,      % 换行后自动缩进
+  %codetagify={FIXME},
+                             % 可以用于高亮注释或docstrings中的特殊代码标签，
+                             % 比如todo，bug，note等
+  % escapeinside=@@          % 在@和@之间的代码为latex代码
+  %fontfamily=tt,            % 字体
+  %fontsize=\scriptsize,     % 字体大小
+  %frame=single,             % 边框样式
+  %framerule=0.4pt,          % 边框线宽
+  %framesep=\fboxsep,        % 边框与代码间的距离
+  %numbers=left,             % 行号及位置
+  %bgcolor=black,            % 设置背景颜色
+  %resetmargins=true         % 在其它环境内部重设左侧边距
+}
+% 设置代码高亮风格, 可以使用 pygmentize -L styles 命令获取支持的风格
+\usemintedstyle{tango} 
+
+\newcounter{commentCount} % 定义新的计数器，用于comments的标签索引计数
+%\newcounter{filePrg}     % 定义新的计数器，用于从文件中插入代码的标签索引计数
+%\newcounter{inputPrg}    % 定义新的计数器，用于嵌入式代码的标签索引计数
+\newcounter{codeCount}    % 无论是从文件中插入还是嵌入式代码，从读者的角度看都是
+                          % 代码，所以取消它们独立的计数器，使用统一的计数器
+
+% 定义注释/代码框的表头风格
+\newcolumntype{\CeX}{>{\centering\let\newline\\\arraybackslash}X}%
+\newcommand{\TwoSymbolsAndText}[3]{%
+  \begin{tabularx}{\textwidth}{c\CeX c}%
+    #1 & #2 & #3
+  \end{tabularx}%
+}
+
+% 定义注释/代码框的表头风格
+\usepackage{tabularx}
+\newcolumntype{\LeX}{>{\let\newline\\\arraybackslash}X}%
+\newcommand{\OneSymbolAndText}[2]{%
+  \begin{tabularx}{340pt}{l\LeX}  % should normally be \textwidth instead of 
+                                  % 340pt but fills out the box nicer this way
+    #1 & #2
+  \end{tabularx}%
+}
+
+\tcbuselibrary{listings}
+\tcbuselibrary{minted}
+% 定义注释框插入命令
+\newtcolorbox[use counter=commentCount, number format=\arabic]{commentBox}[2]{
+  size=title,
+  arc=1.5mm,
+  breakable,
+  enhanced jigsaw,
+  colframe=black,
+  coltitle=white,
+  boxrule=0.5mm,
+  colback=white,
+  coltext=black,
+  title=\TwoSymbolsAndText{\faCheck}{%
+    \textbf{Comment \thetcbcounter}\ifthenelse{\equal{#1}{}}{}{\textbf{:} \textit{#1}}%
+  }{\faCheck},
+  label=comment:#2,
+}
+
+% 定义从文件中插入代码的命令
+\newtcbinputlisting[use counter=codeCount, number format=\arabic]{\codeFromFile}[4]{%
+  listing engine=minted,
+  minted language=#1,
+  listing file={#2},
+  minted options={autogobble,linenos,breaklines},
+  listing only,
+  size=title,
+  arc=1.5mm,
+  breakable,
+  enhanced jigsaw,
+  colframe=brown,
+  coltitle=white,
+  boxrule=0.5mm,
+  colback=white,
+  coltext=black,
+  title=\TwoSymbolsAndText{\faCode}{%
+    \textbf{Code \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}}%
+  }{\faCode},
+  label=filePrg:#4
+}
+
+% 定义嵌入式代码插入命令
+\newtcblisting[use counter=codeCount, number format=\arabic]{codeInput}[3]{
+  listing engine=minted,
+  minted language=#1,
+  minted options={autogobble,linenos,breaklines},
+  listing only,
+  size=title,
+  arc=1.5mm,
+  breakable,
+  enhanced jigsaw,
+  colframe=brown,
+  coltitle=white,
+  boxrule=0.5mm,
+  colback=white,
+  coltext=black,
+  title=\TwoSymbolsAndText{\faCode}{%
+    \textbf{Code \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}}%
+  }{\faCode},
+  label=inputPrg:#3
+}
+
+% 重定义标签引用的名称
+\crefname{commentCount}{comment}{comments}
+%\crefname{filePrg}{file program}{file programs}
+%\crefname{inputPrg}{input program}{input programs}
+\crefname{codeCount}{code}{codes}
+\begin{comment}
+    1. minted介绍:
+    minted可以提供比lstings更为灵活的源码高亮方式，minted支持的语言也更多。
+    minted的安装使用比lstings更为复杂，它依赖于Pygments. Pygments可以通过如下命令
+    安装：
+    pip install Pygments
+    同时minted还依赖如下tex的包，这些包一般会在tex的发布版中包含:
+    *keyval     *ifthen     *xcolor
+    *kvoptions  *calc       *lineno
+    *fancyvrb   *ifplatform *framed
+    *fvextra    *pdftexcmds *shellesc (for luatex 0.87+)
+    *upquote    *etoolbox   *catchfile
+    *float      *xstring
+    通常minted也会包含在tex的发布版中.
+
+    2. minted使用说明：
+    因为minted是调用的外部命令(Pyments)进行语法高亮的，所以需要设置latex命令行参
+    数-shell-escape以允许latex运行外部命令, 如下:
+    xelatex -shell-escape something.tex
+
+    3. 示例:
+    \begin{commentBox}{My first comment}{first}
+      My first comment here! \faTree
+    \end{commentBox}
+
+    \begin{codeInput}{c}{A welcome program.}{code01}
+      #include <stdio.h>
+      int main() {
+        printf("Hello world!\n");
+        return 0;
+      }
+    \end{codeInput}
+
+    \codeFromFile{java}{HelloWorld.java}{Another welcome program.}{code01}
+
+    See \cref{comment:first} for details. Also, look for 
+    \cref{inputPrg:code01} and \cref{filePrg:code01} for further assistance.
 \end{comment}
 
 
@@ -223,6 +461,7 @@ xcolor宏包中预定义的颜色有:
     该宏包还可以设置页面的上下左右边距，例如：
         \geometry{a4paper,left=2cm,right=2cm,top=1cm,bottom=1cm}
 \end{comment}
+
 
 % ***** ****** ****** ****** ******
 % 数学公式
@@ -351,53 +590,6 @@ xcolor宏包中预定义的颜色有:
 
 
 % ***** ****** ****** ****** ******
-% 链接宏包
-% ***** ****** ****** ****** ******
-\usepackage[xetex,      % 生成链接的后端驱动，详情见CTAN hyperref手册
-    hidelinks,          % 隐藏链接的颜色和边框
-    CJKbookmarks=true   %支持中文书签
-    ]{hyperref}
-\begin{comment}
-    在所有引用处插入链接，可以跳转到被引用位置，如从目录跳转至相应章节，从图片引
-    用位置跳转到图片等。
-    hidelinks参数用于去掉hyperref默认在链接上加入的红框
-    使用方法：
-    % The text is made a hyperlink to the URL; this must be a full URL (relative
-    % to the base URL, if that is defined). The special characters # and ˜ do
-    % not need to be escaped in any way (unless the command is used in the
-    % argument of another command). 
-    \href[options]{URL}{text}
-    % Similar to \href{URL}{\nolinkurl{URL}}. Depending on the driver \href also
-    % tries to detect the link type. Thus the result can be a url link, file
-    % link, …
-    \url{URL}
-    % Write URL in the same way as \url, without creating a hyperlink.
-    \nolinkurl{URL}
-    % A base URL is established, which is prepended to other specified URLs, to
-    % make it easier to write portable documents.
-    \hyperbaseurl{URL}
-    % The link to the image referenced by the URL is inserted, using text as
-    % the anchor. 
-    \hyperimage{imageURL}{text}
-    % A target area of the document (the text) is marked, and given the name
-    % category.name
-    \hyperdef{category}{name}{text} 
-    % text is made into a link to URL#category.name
-    \hyperref{URL}{category}{name}{text} 
-    % text is made into a link to the same place as \ref{label} would be linked.
-    \hyperref[label]{text}
-    % A simple internal link is created with \hypertarget, with two parameters
-    % of an anchor name, and anchor text. \hyperlink has two arguments, the name
-    % of a hypertext object defined somewhere by \hypertarget, and the text
-    % which be used as the link on the page.
-    % Note that in HTML parlance, the \hyperlink command inserts a notional # in
-    % front of each link, making it relative to the current testdocument; \href
-    % expects a full URL
-    \hyperlink{name}{text}
-    \hypertarget{name}{text}
-\end{comment}
-
-% ***** ****** ****** ****** ******
 % TODO list
 % ***** ****** ****** ****** ******
 % for to-do-list, check box
@@ -410,7 +602,6 @@ xcolor宏包中预定义的颜色有:
 \newcommand{\xmark}{\ding{55}}%
 \newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}\hspace{-2.5pt}}
 \newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
-
 \begin{comment}
     使用方法:
     \begin{todolist}
@@ -422,27 +613,6 @@ xcolor宏包中预定义的颜色有:
 	\end{todolist}
 \end{comment}
 
-% ***** ****** ****** ****** ******
-% 表格制作
-% ***** ****** ****** ****** ******
-\usepackage{tabularx}
-\usepackage{colortbl}
-\usepackage{booktabs}
-\usepackage{multirow}
-\usepackage{diagbox}
-\usepackage{threeparttable}
-\begin{comment}
-    使用方法：
-    \begin{table}
-        \centering
-        \begin{tabular}{l|l|l|l|l|l}
-            \hline
-            item1   &item2  &item3  &item4  &item5  \ \hline
-            item1   &item2  &item3  &item4  &item5  \ \hline
-        \end{tabular}
-        \caption{Table Example}
-    \end{table}
-\end{comment}
 
 % ***** ****** ****** ****** ******
 % 字体说明
@@ -459,6 +629,7 @@ xcolor宏包中预定义的颜色有:
     \huge
     \Huge
 \end{comment}
+
 
 % ***** ****** ****** ****** ******
 % 设置字体颜色的方法 
@@ -492,8 +663,9 @@ xcolor宏包中预定义的颜色有:
     \fcolorbox{red}{green}{红框绿背景} %框色+背景色
 \end{comment}
 
+
 % ***** ****** ****** ****** ******
-% Font Awesome图标
+% Font Awesome图标 -- 已经在上面使用了fontawesome5
 % ***** ****** ****** ****** ******
 \begin{comment}
     FontAwesome是一个latex图标库，提供了600+个图标，常用于简历、非正式报告等模板。
@@ -549,4 +721,3 @@ xcolor宏包中预定义的颜色有:
 \newcommand{\warnning}[1]{\fcolorbox{red}{white}{\textbf{WARNNING}} #1}
 % 定义新命令用于格式化注意事项
 \newcommand{\notice}[1]{\colorbox{yellow}{\color{black}\textbf{NOTICE}} #1}
-

@@ -23,6 +23,8 @@ clean:
 	rm -rf outputs/*.aux
 	rm -rf outputs/*.toc
 	rm -rf outputs/*.out
+	rm -rf outputs/*.listing
+	rm -rf outputs/_minted*
 
 # 清除编译生成的所有文件
 .PHONY: clean_all
