@@ -6,7 +6,7 @@ all: pdf # docx markdown
 
 # 生成pdf文档
 pdf:
-	xelatex -output-dir=outputs docs/*.tex
+	xelatex -shell-escape -output-dir=outputs docs/*.tex
 
 # 生成Word文档
 # docx:
