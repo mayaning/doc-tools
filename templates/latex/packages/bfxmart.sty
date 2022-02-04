@@ -210,17 +210,37 @@
 \usepackage{multirow}
 \usepackage{diagbox}
 \usepackage{threeparttable}
+\usepackage{longtable}
+\usepackage{tabu}
 \begin{comment}
+
     使用方法：
-    \begin{table}
-        \centering
-        \begin{tabular}{l|l|l|l|l|l}
-            \hline
-            item1   &item2  &item3  &item4  &item5  \ \hline
-            item1   &item2  &item3  &item4  &item5  \ \hline
-        \end{tabular}
-        \caption{Table Example}
-    \end{table}
+    \begin{table*}[!htbp]
+      \centering
+      \begin{tabularx}{\textwidth}{lXXX} %X指定单元格可自动换行
+        \toprule
+        item1 &item2 &item3 &item4  &item5 \\
+        \midrule
+        item1 &item2 &item3 &item4  &item5 \\
+        \bottomrule
+      \end{tabularx}
+      \caption{Tabularx example}
+      \label{tab:tabularx}
+    \end{table*}
+
+    上述方法制作的表格不能跨页，如果需要跨页的表格使用如下方法：
+    % X指定单元格内可自动换行; [5,l]和[15,l]中数字指定每个单元个占表格宽度的比例，
+    % 字母(l,c,r)指定单元格内对齐方式; to \textwidth指定表格宽度
+    \begin{longtabu} to \textwidth {X[5,l]X[15,l]} 
+      \toprule
+      item1 &item2 &item3 &item4  &item5 \\
+      \midrule
+      item1 &item2 &item3 &item4  &item5 \\
+      \bottomrule \\  %注意这个地方有\\
+      % 跨页表格中的caption与普通的caption不同，它也是表格中的一行
+      \caption{标准数字格式说明符}
+      \label{tab:contextKeywords}
+    \end{longtabu}
 \end{comment}
 
 % ***** ****** ****** ****** ******
