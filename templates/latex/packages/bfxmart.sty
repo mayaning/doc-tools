@@ -446,6 +446,13 @@
     xelatex -shell-escape something.tex
 
     3. 示例:
+    \begin{minted}{<language>}
+      <code>
+    \end{minted}
+    \mint{<language>}|<code>|
+    \mintinline{<language>}{<code>}
+    \inputminted[<options>]{<language>}{<filename>}
+
     \begin{commentBox}{My first comment}{first}
       My first comment here! \faTree
     \end{commentBox}
@@ -741,3 +748,32 @@
 \newcommand{\warnning}[1]{\fcolorbox{red}{white}{\textbf{WARNNING}} #1}
 % 定义新命令用于格式化注意事项
 \newcommand{\notice}[1]{\colorbox{yellow}{\color{black}\textbf{NOTICE}} #1}
+
+% ***** ****** ****** ****** ******
+% Latex特殊符号
+% ***** ****** ****** ****** ******
+\begin{comment}
+  %Latex命令        输出符号
+  \#                #
+  \%                %
+  \}                }
+  \_{}              _
+  \textbackslash    \
+  \$                &
+  \{                {
+  \~{}              ~
+  \^{}              ^
+  \&                &
+  %引号
+  `%(反引号)        '(左单引号)
+  '%(单引号)        '(右单引号)
+  ``%(两个反引号)   "(左双引号)
+  "%(双引号)        "(右双引号)
+  \verb|`|          `(反引号)
+  -                 连字符
+  --                连接号
+  ---               破折号
+  %数学环境
+  $\backslash$      \
+  $-$               减号
+\end{comment}
