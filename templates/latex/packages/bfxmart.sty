@@ -152,7 +152,6 @@
 \end{comment}
 
 
-
 % ***** ****** ****** ****** ******
 % 链接宏包
 % ***** ****** ****** ****** ******
@@ -244,43 +243,644 @@
 \end{comment}
 
 % ***** ****** ****** ****** ******
+% 文本框 - tcolorbox
+% ***** ****** ****** ****** ******
+\usepackage[many]{tcolorbox}
+\begin{comment}
+  
+  一、基础环境和基础命令
+  tcolorbox宏包提供了与宏包同名的环境，是整个宏包的基础环境，用于生成段落间的文
+  本框。与之对应，宏包还提供了\tcbox命令，用于生成行内的文本框。使用方式如下：
+
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  % tcolorbox环境使用方法:
+  \begin{tcolorbox}[options]
+    environment content
+  \end{tcolorbox}
+  % 行内文本框使用方法:
+  \tcbox[options]{box content}
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+
+  示例1：
+  \begin{tcolorbox}
+    This is my first \textbf{tcolorbox}.
+  \end{tcolorbox}
+
+  示例2：
+  \begin{tcolorbox}
+    This is another \textbf{tcolorbox}.
+    \tcblower
+    Here, you see the lower part of the box.
+  \end{tcolorbox}
+
+  示例3：
+  \begin{tcolorbox}[title = {I Love Sophia}]
+    This is a \textbf{tcolorbox} with title.
+    \tcblower
+    Here, you see the lower part of the box.
+  \end{tcolorbox}
+
+  tcolorbox环境和\tcbox命令都可以接收一组选项，用来控制文本框的样式。常用的选项
+  如下：
+
+  TODO: 常用选项说明
+  
+  二、定义和重定义新的box
+  tcolorbox宏包提供了4个命令，分别用来定义和重定义tcolorbox和\tcbox命令制作的文
+  本框样式:
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  \newtcolorbox[init options]{name}[number][default]{options}
+  \renewtcolorbox[init options]{name}[number][default]{options}
+  \newtcbox[init options]{\name}[number][default]{options}
+  \renewtcbox[init options]{\name}[default]{options}
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  * [init options] 通常是用来控制计数器的，具体可以参见tcolorbox宏包说明手册的第
+    5章
+  * {name} 是新定义的环境或命令的名字
+  * [number] 是环境或命令参数的个数
+  * [default] 是环境或命令可选参数的默认值
+  * {options} 接受类似\tcbset的key-value参数列表
+
+  示例1：
+  \newtcolorbox{mybox}{colframe = red!75!black}
+  \begin{mybox}
+    This is my own box.
+  \end{mybox}
+
+  示例2：
+  \renewtcolorbox{mybox}{colback = red!25!white, colframe = red!75!black}
+  \begin{mybox}
+    This is my own box.
+  \end{mybox}
+
+  示例3：
+  \begin{tcolorbox}[colback = red!25!white, colframe = red!75!black]
+    This is my own box.
+  \end{tcolorbox}
+
+  说明：示例1中用\newtcolorbox定义了名为mybox的环境; 示例2中用\renewtcolorbox重
+  新定义了名为mybox的环境; 示例3用原始tcolorbox重复实现mybox环境的效果.
+
+  示例4: 
+  \newtcolorbox{mybox}[2][]{colback = red!5!white, colframe = red!75!black, 
+    fonttitle = \bfseries, colbacktitle = red!85!black, enhanced, 
+    attach boxed title to top center={yshift=-2mm},
+    titile=#2,#1}
+  \begin{mybox}[colback=yellow]{Hello there}
+    This is my own box with a mandatory title and options
+  \end{mybox}
+  
+  说明：示例4中用\newtcolorbox命令定义了一个稍微复杂的mybox环境。它接收两个参数，
+  其中第一个参数是可选的，默认值为空；第二个参数则是必填的参数。第一个参数用作
+  tcolorbox环境参数补充，第二个参数则是box的标题。
+
+  示例5：
+  \newtcbox{\mybox}[1][red]{on line, arc = 0pt, outer arc = 0pt, 
+    colback = #1!10!white, colframe = #1!50!black, 
+    boxsep = 0pt, left = 1pt, right = 1pt, top = 2pt, bottom = 2pt,
+    boxrule = 0pt, bottomrule = 1pt, toprule = 1pt}
+
+    The \mybox[green]{quick} brown \mybox{fox} \mybox[blue]{jumps} over the 
+    \mybox[green]{lazy} \mybox{dog}.
+
+  说明：\newtcbox命令定义了一个新的\mybox命令，它可以用来高亮选中的单词.
+
+  三、Warp既有环境
+  有时候，我们希望将既有的Latex环境改造成带文本框样式的环境。这时候，可以使用
+  \tcolorboxenvironment环境，它的用法是:
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  \tcolorboxenvironment{name}{options}
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  
+  示例3.1
+  \newenvironment{myitemize}{\begin{itemize}}{\end{itemize}}
+  \tcolorboxenvironment{myitemize}{blanker, before skip = 6pt, after skip = 6pt, 
+    borderline west = {3mm}{0pt}{red}}
+  Some text.
+  \begin{myitemize}
+    \item Alpha
+    \item Beta
+    \item Beta
+    \item Gamma
+  \end{myitemize}
+  More text.
+
+  说明：示例3.1中, 用\tcolorboxenvironment命令，在myitemize环境外重新Wrap了一层。
+  新的myitemize环境在左侧有一道宽为3mm的红色提示线。不难发现，
+  \tcolorboxenvironment命令可以在(几乎)不改变原有环境效果的情况下，定义一个新的
+  文本框环境。这种功能十分实用。
+
+  四. 常用选项
+  这里列一些常用的选项，用来控制tcolorbox环境和\tcbox命令的效果。其它未尽选项和
+  效果，可以查看tcolorbox的使用说明手册.
+
+  4.1 标题的内容控制
+  * title=<text>: 设置标题内容，默认为空.
+  * notitle: 移除标题
+  * adjusted title=<text>: 设置标题内容，默认为空。使用title生成的标题，标题栏会
+  根据标题内容的高低自动调整;而使用adjusted tile生成的标题，标题栏的高度由当前行
+  的多个文本框中的标题高度最高的文本框决定，即把一行中的多个文本框的标题调成一样
+  的高度。
+  * squeezed title=<text>: 设置标题内容，默认为空。使用squeezed title生成的标题，
+  如果超过允许长度，不会换行，而是会在横向进行压缩。
+  * squeezed title*=<text>: 设置标题，默认为空。合并了adjusted title和squeezed
+  title的效果。
+  
+  示例4.1
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+
+  \begin{document}
+    \tcbset{colback=white, arc=0mm, width=(\linewidth-4pt)/4, 
+    equal height group=AT, before=, after=\hfill, fonttitle=\bfseries}
+    
+    \noindent
+    \foreach \n in {xxx,ggg,AAA,\"Agypten}
+    { 
+      \begin{tcolorbox}[title=\n,colframe=red!75!black]
+        Some content.
+      \end{tcolorbox} 
+    }
+
+    \noindent
+    \foreach \n in {xxx,ggg,AAA,\"Agypten}
+    {
+      \begin{tcolorbox}[adjusted title=\n, colframe=blue!75!black]
+        Some content.
+      \end{tcolorbox}
+    }
+
+    \begin{tcbitemize}[raster columns=3, raster equal height, 
+        colframe=red!75!black,colback=red!5!white,fonttitle=\bfseries]
+      \tcbitem[squeezed title={Short title}] First box
+      \tcbitem[squeezed title={This is a very very long title}] Second box
+      \tcbitem[squeezed title={This title is clearly to long for this
+        application}] Third box
+    \end{tcbitemize}
+
+    \begin{tcbitemize}[raster columns=3, raster equal height, 
+        colframe=blue!75!black, colback=red!5!white, fonttitle=\bfseries]
+      \tcbitem[squeezed title*={Short title}] First box
+      \tcbitem[squeezed title*={This is a very very long title}] Second box
+      \tcbitem[squeezed title*={This title is clearly to long for this
+        applictaion}] Third box
+    \end{tcbitemize}
+  \end{document}
+
+  4.2 标题的位置
+  默认情况下，文本框的标题会附在文本框的上方。这一状态称为attach.我们可以将标题
+  从默认位置上移开，这个动作称为detach. detach之后，我们就可以用tcolorbox提供的
+  宏将标题放在任意自己想要放的位置。其中，\tcbtitletex存储了标题的文本内容，
+  \tcbtitle则储存了标题的文本及样式。
+  * attach title: 默认样式，标题将显示在文本框上方的单独单元格里。
+  * detach title: 取消文本框上方单独的单元格，标题需要用户手工指定位置。
+  * attach title to upper = ⟨text⟩: 取消文本框上方单独的单元格，标题放在文本框
+    upper 部分的头部。
+  
+  示例4.2
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+    \newtcolorbox{mybox}[2][]{colbacktitle=red!10!white, colback=blue!10!white,
+      coltitle=red!70!black, title={#2},fonttitle=\bfseries,#1}
+    % Box 1
+    \begin{mybox}{My title}
+      This is a \textbf{tcolorbox}.
+    \end{mybox}
+    % Box 2
+    \begin{mybox}[detach title,before upper={\tcbtitle\quad}]{My title}
+      This is a \textbf{tcolorbox}.
+    \end{mybox}
+    % Box 3
+    \begin{mybox}[detach title,after upper={\par\hfill\tcbtitle}]{My title}
+      This is a \textbf{tcolorbox}.
+    \end{mybox}
+    % Box 4
+    \begin{mybox}[attach title to upper={\ ---\ }]{My title}
+      This is a \textbf{tcolorbox}.
+    \end{mybox}
+    % Box 5
+    \begin{mybox}[attach title to upper,after title={:\ }]{My title}
+      This is a \textbf{tcolorbox}.
+    \end{mybox}
+  \end{document}
+  
+  说明：Box 1是正常的形式，Box 2-5是detach的情形，before upper将\tcbtitle放在
+  upper部分之前; after upper将\tcbtitle换行后放在upper部分的末尾；Box 4,5使用两
+  种方式设置了标题的分隔符。
+
+  4.3 upper和lower的状态
+  tcolorbox 宏包输出的文本框，在逻辑上可以分为 upper 和 lower 两个部分，在代码中
+  用 \tcblower 命令分割 upper 和 lower 两部分——如果没有 \tcblower，则当前文本框
+  只有 upper 部分，而没有 lower 部分。 upper 和 lower 部分都有可见 (visible) 和
+  不可见 (invisible) 两种状态，lower 部分还有被忽略 (ignored) 这一额外的状态。
+  * upperbox = ⟨visible|invisible⟩: 控制 upper 部分是否可见
+  * lowerbox = ⟨visible|invisible|ignored⟩: 控制 lower 部分是否可见
+  * visible: 同时控制 upper 和 lower 部分可见
+  * invisible: 同时控制 upper 和 lower 部分不可见
+
+  示例4.3:
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+    % Box 1
+    \begin{tcolorbox}[upperbox=invisible,colback=white]
+      This is a \textbf{tcolorbox} (but invisible).
+    \end{tcolorbox}
+    % Box 2
+    \begin{tcolorbox}[upperbox=invisible,colback=white]
+      This is a \textbf{tcolorbox} (but invisible).
+      \tcblower
+      This is the lower part.
+    \end{tcolorbox}
+    % Box 3
+    \begin{tcolorbox}[lowerbox=invisible,colback=white]
+      This is a \textbf{tcolorbox}.
+      \tcblower
+      This is the lower part (but invisible).
+    \end{tcolorbox}
+    % Box 4
+    \begin{tcolorbox}[lowerbox=ignored,colback=white]
+      This is a \textbf{tcolorbox}.
+      \tcblower
+      This is the lower part (but ignored).
+    \end{tcolorbox}
+  \end{document}
+
+  4.4 upper 和 lower 部分的分隔
+  默认情况下，upper 和 lower 部分之间会有一个分隔，不过，我们也可以通过 lower
+  separated 来控制是否显示这一分隔符。
+  * lower separated = ⟨true|false⟩: 控制是否显示 upper 和 lower 两部分中间的分隔。
+
+  示例4.4
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+    \begin{tcbraster}[colback=red!5!white,colframe=red!75!black,
+      fonttitle=\bfseries,fontlower=\itshape] %
+      % Box 1
+      \begin{tcolorbox}[title=Lower separated]
+        This is the upper part.
+        \tcblower
+        This is the lower part.
+      \end{tcolorbox}
+      % Box 2
+      \begin{tcolorbox}[title=Lower not separated,lower separated=false]
+        This is the upper part.
+        \tcblower
+        This is the lower part.
+      \end{tcolorbox}
+      % Box 3 左右分栏
+      \begin{tcolorbox}[sidebyside,title=Lower separated]
+        This is the upper part.
+        \tcblower
+        This is the lower part.
+      \end{tcolorbox}
+      % Box 4
+      \begin{tcolorbox}[sidebyside,title=Lower not separated,
+        lower separated=false]
+        This is the upper part.
+        \tcblower
+        This is the lower part.
+      \end{tcolorbox}
+      % Box 5 beamer ?
+      \begin{tcolorbox}[beamer,title=Lower separated]
+        This is the upper part.
+        \tcblower
+        This is the lower part.
+      \end{tcolorbox}
+      % Box 6 beamer
+      \begin{tcolorbox}[beamer,title=Lower not separated,lower separated=false]
+        This is the upper part.
+        \tcblower
+        This is the lower part.
+      \end{tcolorbox}
+    \end{tcbraster}
+  \end{document}
+
+  说明: 这里用 tcbraster 环境做了一个明显的左右对比。我们可以看到，当开启 lower
+  separated=false 时，各个 skin 下的分隔都不见了。值得注意的是，中间一行中，我们
+  使用了 sidebyside 选项，它能将 upper 和 lower 两个部分从上下的布局样式，改变成
+  左右的布局样式。
+
+  4.5 颜色和字体控制
+  tcolorbox 提供了很多颜色控制选项，用来控制文本框各个部分的颜色效果。
+  * colframe: 文本框框沿的颜色，默认是 black!75!white。
+  * colback: 文本框内的底色，默认是 black!5!white。
+  * colbacktitle: 文本框中标题框的底色，默认是 black!50!white。
+  * colupper: upper 部分文字的颜色。
+  * collower: lower 部分文字的颜色。
+  * coltext: 同时设置 upper 和 lower 部分文字的颜色。
+  * coltitle: title 部分文字的颜色。
+
+  示例4.5
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+  \begin{tcolorbox}[title = {My Box},
+    colframe = red!50!white, colback = green!50!white,
+    colbacktitle = green!30!white,
+    colupper = yellow!25!red, collower = yellow!75!red,
+    coltitle = black!90!white]
+    This is a \textbf{tcolorbox}.
+    \tcblower
+    This is the lower part.
+  \end{tcolorbox}
+  \end{document}
+
+  * fontupper: 控制 upper 部分的字体
+  * fontlower: 控制 lower 部分的字体
+  * fonttitle: 控制 title 部分的字体
+
+  示例4.6
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+  \begin{tcolorbox}[title = {My Box},
+    fonttitle = \bfseries, fontupper = \sffamily, fontlower = \itshape]
+    This is a \textbf{tcolorbox}.
+    \tcblower
+    This is the lower part.
+  \end{tcolorbox}
+  \end{document}
+
+  4.6 宽度控制
+  tcolorbox 宏包提供了三个选项对宽度进行最基本的控制，它们分别是：
+  * width: 文本框的总宽度，默认是 \linewidth。
+  * textwidth: 文本框内文本的宽度。
+  * add to width: 在现有设置的基础上，调整文本框的总宽度。
+
+  示例4.7
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+    \tcbset{width=5cm, colback=red!5!white, colframe=red!75!black}
+    \begin{tcolorbox}
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[text width = 5cm]
+      \rule{5cm}{2ex}
+    \end{tcolorbox}
+    \begin{tcolorbox}[add to width = -1cm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+  \end{document}
+
+  4.7 线条
+  tcolorbox 输出的文本框，其框线都可以设置宽度。
+  * toprule/bottomrule/leftrule/rightrule: 分别设置文本框上、下、左、右的框线宽度。
+  * titlerule: 设置标题框和内容框之间的框线宽度。
+  * boxrule: 同时设置上述 5 条框线的宽度。
+
+  示例4.8
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+    \tcbset{boxrule = 0.5mm, colback=red!5!white, colframe=red!75!black,
+      title = {My title}}
+    \begin{tcolorbox}
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[toprule = 3mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[bottomrule = 3mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[leftrule = 3mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[rightrule = 3mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[titlerule = 3mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+  \end{document}
+
+  4.8 弧度
+  文本框的弧度也是可以定制的。并且，文本框的弧度，在 tcolorbox 中被细分为内弧和
+  外弧，可以分别设置。默认情况下，外弧的弧度与内弧保持一致（auto outer arc）。
+  * arc=⟨length⟩: 设置内弧的半径。
+  * outer arc=⟨length⟩: 设置外弧的半径，可以与内弧不同。
+  * auto outer arc: 让外弧的半径自动随着内弧的半径增减，默认启用。
+  
+  示例4.9
+  \documentclass{article}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+    \tcbset{colback = red!5!white, colframe = red!75!black}
+    \begin{tcolorbox}[arc = 0mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[arc = 3mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[arc = 4mm, outer arc = 1mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+    \begin{tcolorbox}[arc = 1mm, outer arc = 4mm]
+      This is a \textbf{tcolorbox}.
+    \end{tcolorbox}
+  \end{document}
+
+  五、theorems 程序包
+  tcolorbox 宏包提供了 theorems 程序包来实现定理类的环境。theorems 程序包会自动
+  加载 amsmath 宏包。加载调用的方法如前所述：
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  \tcbuselibrary{theorems}
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  theorems 程序包提供了两个命令，来生成文本框样式的定理类环境。
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  \newtcbtheorem[⟨init options⟩]{⟨name⟩}{⟨display name⟩}{⟨options⟩}{⟨prefix⟩}
+  \renewtcbtheorem[⟨init options⟩]{⟨name⟩}{⟨display name⟩}{⟨options⟩}{⟨prefix⟩}
+  % ----- ----- ----- ----- ----- ------ ----- ----- ------ ----- -----
+  两个命令分别都有 4 个必需参数和 1 个可选参数。
+  * name: 创建的 LaTeX 环境名称
+  * display name: 创建的环境的标题名称
+  * options: 传入 tcolorbox 的参数
+  * prefix: 用于生成环境的 label
+  * init options: 用于控制编号
+  我们来看几个例子。
+  \documentclass[UTF8]{ctexart}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \begin{document}
+  \section{标题}
+  \newtcbtheorem[number within=section]{mytheo}{我的定理环境}%
+    {colback=green!5,colframe=green!35!black,fonttitle=\bfseries}{th}
+  \begin{mytheo}{定理标题}{theoexample}
+    这里是定理内容。计数器按照设定，随着~\verb|\section|~的更新而更新。
+    定理编号为：\ref{th:theoexample}，位于第~\pageref{th:theoexample}~页。
+  \end{mytheo}
+  \begin{mytheo}[label=myownlabel]{定理标题}{}
+    通过可选参数，可以继续向~\verb|tcolorbox|~环境传入参数。
+    \verb'label'~参数可以留空；当它不为空时，则可以作为定理环境的引用：
+    \ref{myownlabel}。
+  \end{mytheo}
+  \begin{mytheo}{}{}
+    如果定理标题留空，那么编号之后的分隔符（默认是冒号）会自动消失。
+  \end{mytheo}
+  \begin{mytheo*}{不编号的定理之标题}
+    \verb'\newtcbtheorem'~也会同时定义带星花的版本，用于产生不编号的定理。
+    不编号的定理，当然也就没有交叉引用一说了。
+  \end{mytheo*}
+  \begin{mytheo*}{}
+    无标题的不编号的定理，当然也是可以有的。
+  \end{mytheo*}
+  \end{document}
+
+  5.1选项
+  theorems 程序包也提供了诸多选项，用来控制生成的定理环境样式。
+  * separator sign = ⟨sign⟩: 设置定理环境编号和标题之间的分隔符，默认是 :。
+  * separator sign colon: 相当于 separator sign = {:}
+  * separator sign dash: 相当于 separator sign = {-}
+  * separator sign none: 相当于 separator sign = {}
+  * description delimiters={⟨left⟩}{⟨right⟩}: 设置定理标题左右的定界符，默认是空。
+  * description delimiters parenthesis: 相当于 description delimiters = {(}{)}
+  * description delimiters none: 相当于 description delimiters = {}{}
+  * description color = ⟨color⟩: 设置定理标题的字体颜色。
+  * description font = ⟨text⟩: 设置定理标题的字体。
+  * terminator sign = ⟨sign⟩: 设置定理标题结束后的终止符。
+  * terminator sign colon: 相当于 terminator sign = {:}
+  * terminator sign dash: 相当于 terminator sign = {-}
+  * terminator sign none: 相当于 terminator sign = {}
+
+  示例5.1
+  \documentclass[UTF8]{ctexart}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{most}
+  \usepackage{amsmath, amssymb}
+  \begin{document}
+  \section{标题}
+  \newtcbtheorem[number within=section]{mytheo}{定理}%
+    {colback=green!5,colframe=green!35!black,fonttitle=\bfseries}{th}
+  \begin{mytheo}{我的定理}{}
+  这是默认样式。
+  \end{mytheo}
+  \begin{mytheo}[separator sign = {\ $\blacktriangleright$}]{我的定理}{}
+  分隔符修改为 $\blacktriangleright$。
+  \end{mytheo}
+  \begin{mytheo}[description delimiters parenthesis]{我的定理}{}
+  定界符修改为圆括号。
+  \end{mytheo}
+  \begin{mytheo}[description color=red!25!yellow,
+    description font= {\mdseries\itshape}]{我的定理}{}
+  标题的字体及颜色修改。
+  \end{mytheo}
+  \begin{mytheo}[terminator sign={.}]{我的定理}{}
+  标题后的终止符。
+  \end{mytheo}
+  \end{document}
+  
+  示例5.2
+  \documentclass[UTF8]{ctexart}
+  \usepackage{enumitem}
+  \usepackage{tcolorbox}
+  \tcbuselibrary{skins, breakable, theorems}
+
+  \newtcbtheorem{question}{题~(理}%
+    {enhanced, breakable,
+      colback = white, colframe = cyan, colbacktitle = cyan,
+      attach boxed title to top left = {yshift = -2mm, xshift = 5mm},
+      boxed title style = {sharp corners},
+      fonttitle = \sffamily\bfseries, separator sign = {).~}}{qst}
+
+  \begin{document}
+  \section{测试}
+
+  \begin{question}{函数}{example}
+  已知函数 $ f(x) = (x - 2)\mathrm{e}^{2} + a (x - 1)^{2} $ 有两个零点.
+  \begin{enumerate}[label=(\arabic*)]
+    \item 求 $ a $ 的取值范围;
+    \item 设 $ x_{1} $, $ x_{2} $ 是 $ f(x) $ 的两个零点，证明 $ x_{1} + x_{2} < 2 $.
+  \end{enumerate}
+  \end{question}
+
+  这里我们调用了 skins/breakable/theorems 三个程序包，其中 theorems 我们已经见过
+  了。skins 程序包提供了各种「皮肤」，可以在基础 tcolorbox 的基础上扩展更多样式：
+  attach boxed title to top left 这一效果就来自 skins 程序包中的 enhanced 主题。
+  breakable 的效果则使得文本框能够跨页。
+
+\end{document}
+
+\end{comment}
+
+% ***** ****** ****** ****** ******
 % 代码块配置 - listings
 % ***** ****** ****** ****** ******
 \usepackage{listings}
 \lstset{
-  backgroundcolor=\color{LightBlue1},   % 选择代码背景，必须加上\ usepackage {color}或\ usepackage {xcolor}.
-  basicstyle=\footnotesize,             % 基本代码风格
-  keywordstyle=\color{blue},       % 关键字显示风格.
+  % 选择代码背景，必须加上\ usepackage {color}或\ usepackage {xcolor}.
+  backgroundcolor=\color{LightBlue1},
+  % 基本代码风格
+  basicstyle=\footnotesize,
+  % 关键字显示风格.
+  keywordstyle=\color{blue},
+  % 设置注释格式
   commentstyle=\color[cmyk]{1,0,1,0},    
-                                   % 设置注释格式
-  stringstyle=\color{gray},        % string literal style
-  flexiblecolumns,                 % ????
-  breakatwhitespace=false,         % 设置是否当且仅当在空白处自动中断.
-  breaklines=true,                 % 设置自动断行.
-  captionpos=b,                    % 设置标题位置. b指在下面，t指在上面
-  deletekeywords={...},            % 是否删除给定语言的关键词.
-  escapeinside={\%*}{*)},          % 是否在代码中添加LaTex, 在%*和*)之间的代码为latex代码
-  extendedchars=false,             % 是否允许使用非ASCII字符; 仅适用于8位编码，不适用于UTF-8.
-                                   % 设置为False 解决代码跨页时，章节标题，页眉等汉字不显示的问题
-  frame=single,	                   % 给代码区添加边框.
-  framexleftmargin=8mm,            % 设置代码距边框的左边距
-  keepspaces=true,                 % 保留空格（useful for keeping indentation of code (possibly needs columns=flexible).
-  %language=Octave,                % 使用的语言.
-  morekeywords={*,...},            % 是否需要添加其他的关键词.
-  numbers=left,                    % 给代码添加行号，可取值none, left, right.
-  numbersep=5mm,                   % 设置行号与代码之间的间隔
-  numberstyle=\tiny\color{gray},   % 行号的字号和颜色
-  rulecolor=\color{black},         % 边框颜色，如果没有设置，框架颜色可以在非黑色文本中的换行符上更改（例如 text (e.g. comments (green here))）
-  showspaces=false,                % 显示每个地方添加特定下划线的空格; 覆盖了'showtringspaces'
-  showstringspaces=false,          % 仅在字符串中允许空格
-  showtabs=false,                  % show tabs within strings adding particular underscores
-  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-  tabsize=4,                       % 将默认tab设置为4个空格
-  %title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
+  % string literal style
+  stringstyle=\color{gray},        
+  % ????
+  flexiblecolumns,                 
+  % 设置是否当且仅当在空白处自动中断.
+  breakatwhitespace=false,
+  % 设置自动断行.
+  breaklines=true,
+  % 设置标题位置. b指在下面，t指在上面
+  captionpos=b,
+  % 是否删除给定语言的关键词.
+  deletekeywords={...},
+  % 是否在代码中添加LaTex, 在%*和*)之间的代码为latex代码
+  escapeinside={\%*}{*)},
+  % 是否允许使用非ASCII字符; 仅适用于8位编码，不适用于UTF-8.
+  % 设置为False 解决代码跨页时，章节标题，页眉等汉字不显示的问题
+  extendedchars=false,
+  % 给代码区添加边框.
+  frame=single,
+  % 设置代码距边框的左边距
+  framexleftmargin=8mm,
+  % 保留空格（useful for keeping indentation of code (possibly needs columns=flexible).
+  keepspaces=true,
+  % 使用的语言.
+  %language=Octave,
+  % 是否需要添加其他的关键词.
+  morekeywords={*,...},
+  % 给代码添加行号，可取值none, left, right.
+  numbers=left,
+  % 设置行号与代码之间的间隔
+  numbersep=5mm,
+  % 行号的字号和颜色
+  numberstyle=\tiny\color{gray},
+  % 边框颜色，如果没有设置，框架颜色可以在非黑色文本中的换行符上更改
+  %（例如 text (e.g. comments (green here))）
+  rulecolor=\color{black},
+  % 显示每个地方添加特定下划线的空格; 覆盖了'showtringspaces'
+  showspaces=false,
+  % 仅在字符串中允许空格
+  showstringspaces=false,
+  % show tabs within strings adding particular underscores
+  showtabs=false,
+  % the step between two line-numbers. If it's 1, each line will be numbered
+  stepnumber=1,
+  % 将默认tab设置为4个空格
+  tabsize=4,
+  % show the filename of files included with \lstinputlisting; 
+  % also try caption instead of title
+  %title=\lstname,
+  % 设置边距, 这个边距不是相对于实际页边的位置,
+  % 而是从真正可写的位置开始算的。也就是实际距
+  % 页边的距离为: 全局边距+此处设置的值
   xleftmargin=0.5cm,xrightmargin=0.5cm, aboveskip=0.2cm
-                                   % 设置边距, 这个边距不是相对于实际页边的位置,
-                                   % 而是从真正可写的位置开始算的。也就是实际距
-                                   % 页边的距离为: 全局边距+此处设置的值
 }
 \begin{comment}
   使用方法：
@@ -314,31 +914,47 @@
 
 % minted的选项
 \setminted{
-  encoding=utf8,             % 代码字符编码
-  breaklines=true,           % 允许代码换行
-  breakbytokenanywhere=true, % 允许在记号间换行，不允许在记号内部换行
-  breakautoindent=true,      % 换行后自动缩进
+  % 代码字符编码
+  encoding=utf8,
+  % 允许代码换行
+  breaklines=true,
+  % 允许在记号间换行，不允许在记号内部换行
+  breakbytokenanywhere=true,
+  % 换行后自动缩进
+  breakautoindent=true,
+  % 可以用于高亮注释或docstrings中的特殊代码标签，比如todo，bug，note等
   %codetagify={FIXME},
-                             % 可以用于高亮注释或docstrings中的特殊代码标签，
-                             % 比如todo，bug，note等
-  % escapeinside=@@          % 在@和@之间的代码为latex代码
-  fontfamily=tt,            % 字体
-  fontsize=\scriptsize,      % 字体大小
-  %frame=single,             % 边框样式
-  %framerule=0.4pt,          % 边框线宽
-  %framesep=\fboxsep,        % 边框与代码间的距离
-  %numbers=left,             % 行号及位置
-  %bgcolor=black,            % 设置背景颜色
-  %resetmargins=true         % 在其它环境内部重设左侧边距
+  % 在@和@之间的代码为latex代码
+  % escapeinside=@@          
+  % 字体
+  fontfamily=tt,
+  % 字体大小
+  fontsize=\scriptsize,
+  % 边框样式, 可配置参数有：none, leftline, topline, bottomline, lines, single
+  %frame=single,
+  % 边框线宽
+  %framerule=0.4pt,
+  % 边框与代码间的距离
+  %framesep=\fboxsep,
+  % 行号及位置
+  %numbers=left,
+  % 设置背景颜色
+  %bgcolor=black,
+  % 在其它环境内部重设左侧边距
+  %resetmargins=true
 }
 % 设置代码高亮风格, 可以使用 pygmentize -L styles 命令获取支持的风格
 \usemintedstyle{tango} 
 
-\newcounter{commentCount} % 定义新的计数器，用于comments的标签索引计数
-%\newcounter{filePrg}     % 定义新的计数器，用于从文件中插入代码的标签索引计数
-%\newcounter{inputPrg}    % 定义新的计数器，用于嵌入式代码的标签索引计数
-\newcounter{codeCount}    % 无论是从文件中插入还是嵌入式代码，从读者的角度看都是
-                          % 代码，所以取消它们独立的计数器，使用统一的计数器
+% 定义新的计数器，用于comments的标签索引计数
+\newcounter{commentCount} 
+% 定义新的计数器，用于从文件中插入代码的标签索引计数
+%\newcounter{filePrg}
+% 定义新的计数器，用于嵌入式代码的标签索引计数
+%\newcounter{inputPrg}
+% 无论是从文件中插入还是嵌入式代码，从读者的角度看都是代码，所以取消它们独立的计
+% 数器，使用统一的计数器
+\newcounter{codeCount}
 
 % 定义注释/代码框的表头风格
 \newcolumntype{\CeX}{>{\centering\let\newline\\\arraybackslash}X}%
