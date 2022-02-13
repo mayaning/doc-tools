@@ -280,6 +280,28 @@
     Here, you see the lower part of the box.
   \end{tcolorbox}
 
+  \tcbset{colframe = blue!50!black, colback = white,
+        colupper = red!50!black, fonttitle = \bfseries,
+        nobeforeafter, center title}
+
+  Text \tcbox[tcbox raise base]{Hello World}\hfill
+  %
+  \tcbox[left = 0mm, right = 0mm, top = 0mm, bottom = 0mm, boxsep = 0mm,
+      toptitle = 0.5mm, bottomtitle = 0.5mm, title = {My table}]
+      {\arrayrulecolor{blue!50!black}
+  \renewcommand{\arraystretch}{1.2}%
+  \begin{tabular}{r|c|l}
+    One & Two & Three \\
+    \hline\hline
+    Men   & Mice   & Lions \\\hline
+    Upper & Middle & Lower
+  \end{tabular}}\hfill
+  %
+  \tcbox[colback=blue!85!black,
+        left = 0mm, right = 0mm, top = 0mm, bottom = 0mm,
+        boxsep = 1mm, arc = 0mm, boxrule = 0.5pt, title = {My picture}]
+  {\includegraphics[width = 5cm]{example-image}}
+
   tcolorbox环境和\tcbox命令都可以接收一组选项，用来控制文本框的样式。常用的选项
   如下：
 
@@ -1359,11 +1381,35 @@
     \newcommand{\Name}[2]{ My name is #1 #2. }
     \Name{Xovee}{Xu}
 \end{comment}
-% 定义新命令用于格式化告警
-%\newcommand{\warnning}[1]{\colorbox{red}{\color{black}\textbf{Warnning:}} #1}
-\newcommand{\warnning}[1]{\fcolorbox{red}{white}{\textbf{WARNNING}} #1}
-% 定义新命令用于格式化注意事项
-\newcommand{\notice}[1]{\colorbox{yellow}{\color{black}\textbf{NOTICE}} #1}
+
+% 定义\warning命令
+\newcounter{warningCount} 
+% Warning -- 方框
+\newtcbox[use counter=warningCount, number format=\arabic]{\warning}
+  {attach title to upper, after title={:\ }, title={\faInfoCircle\ WARN},
+  colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries}
+
+% Warning -- 上下线条
+\newtcbox[use counter=warningCount, number format=\arabic]{\warningLines}
+  {attach title to upper, after title={:\ }, title={\faInfoCircle\ WARN},
+  toprule=1pt, bottomrule=1pt, leftrule=0pt, rightrule=0pt, arc=0pt,
+  colback=white!100!black,
+  colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries}
+
+% 定义\note命令
+\newcounter{noteCount} 
+% Note -- 方框
+\newtcbox[use counter=noteCount, number format=\arabic]{\note}
+  {attach title to upper, after title={:\ }, title={\faEdit[regular]\ NOTE},
+  colframe=white!40!black, coltitle=green!95!black, fonttitle=\bfseries}
+
+% Note -- 上下线条
+\newtcbox[use counter=noteCount, number format=\arabic]{\noteLines}
+  {attach title to upper, after title={:\ }, title={\faEdit[regular]\ NOTE},
+  toprule=1pt, bottomrule=1pt, leftrule=0pt, rightrule=0pt, arc=0pt,
+  colback=white!100!black,
+  colframe=white!40!black, coltitle=green!95!black, fonttitle=\bfseries}
+
 
 % ***** ****** ****** ****** ******
 % Latex特殊符号
