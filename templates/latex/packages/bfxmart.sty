@@ -245,7 +245,8 @@
 % ***** ****** ****** ****** ******
 % 文本框 - tcolorbox
 % ***** ****** ****** ****** ******
-\usepackage[many]{tcolorbox}
+\usepackage{tcolorbox}
+\tcbuselibrary{most}
 \begin{comment}
   
   一、基础环境和基础命令
@@ -929,7 +930,7 @@
 \usepackage[outputdir=outputs]{minted} 
 \usepackage{ifthen}
 \usepackage{fontawesome5}
-\usepackage[many]{tcolorbox}
+%\usepackage[many]{tcolorbox}
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{cleveref}
@@ -1385,29 +1386,31 @@
 % 定义\warning命令
 \newcounter{warningCount} 
 % Warning -- 方框
-\newtcbox[use counter=warningCount, number format=\arabic]{\warning}
+\newtcolorbox[use counter=warningCount, number format=\arabic]{warning}
   {attach title to upper, after title={:\ }, title={\faInfoCircle\ WARN},
-  colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries}
+  colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries,
+  breakable}
 
 % Warning -- 上下线条
-\newtcbox[use counter=warningCount, number format=\arabic]{\warningLines}
+\newtcolorbox[use counter=warningCount, number format=\arabic]{warningLines}
   {attach title to upper, after title={:\ }, title={\faInfoCircle\ WARN},
   toprule=1pt, bottomrule=1pt, leftrule=0pt, rightrule=0pt, arc=0pt,
-  colback=white!100!black,
+  colback=white, breakable,
   colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries}
 
 % 定义\note命令
 \newcounter{noteCount} 
 % Note -- 方框
-\newtcbox[use counter=noteCount, number format=\arabic]{\note}
+\newtcolorbox[use counter=noteCount, number format=\arabic]{note}
   {attach title to upper, after title={:\ }, title={\faEdit[regular]\ NOTE},
-  colframe=white!40!black, coltitle=green!95!black, fonttitle=\bfseries}
+  colframe=white!40!black, coltitle=green!95!black, fonttitle=\bfseries,
+  breakable}
 
 % Note -- 上下线条
-\newtcbox[use counter=noteCount, number format=\arabic]{\noteLines}
+\newtcolorbox[use counter=noteCount, number format=\arabic]{noteLines}
   {attach title to upper, after title={:\ }, title={\faEdit[regular]\ NOTE},
   toprule=1pt, bottomrule=1pt, leftrule=0pt, rightrule=0pt, arc=0pt,
-  colback=white!100!black,
+  colback=white, breakable,
   colframe=white!40!black, coltitle=green!95!black, fonttitle=\bfseries}
 
 
