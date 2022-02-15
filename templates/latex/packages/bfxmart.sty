@@ -1059,6 +1059,22 @@
   label=inputPrg:#3
 }
 
+% 定义嵌入式代码插入命令2
+\newtcblisting[use counter=codeCount, number format=\arabic]{codeInputSimple}[2]{
+  listing engine=minted,
+  minted language=#1,
+  minted options={autogobble,breaklines},
+  listing only,
+  size=title,
+  arc=0mm,
+  breakable,
+  enhanced jigsaw,
+  boxrule=0mm,
+  colback=white,
+  coltext=black,
+  label=inputPrg:#2
+}
+
 % 重定义标签引用的名称
 \crefname{commentCount}{comment}{comments}
 %\crefname{filePrg}{file program}{file programs}
