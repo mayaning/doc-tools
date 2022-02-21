@@ -1033,9 +1033,9 @@
   colback=white,
   coltext=black,
   title=\TwoSymbolsAndText{\faCode}{%
-    \textbf{Code \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}}%
+    \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}}%
   }{\faCode},
-  label=filePrg:#4
+  label=code:#4
 }
 
 % 定义嵌入式代码插入命令
@@ -1054,9 +1054,9 @@
   colback=white,
   coltext=black,
   title=\TwoSymbolsAndText{\faCode}{%
-    \textbf{Code \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}}%
+    \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}}%
   }{\faCode},
-  label=inputPrg:#3
+  label=code:#3
 }
 
 % 定义嵌入式代码插入命令2
@@ -1072,14 +1072,14 @@
   boxrule=0mm,
   colback=white,
   coltext=black,
-  label=inputPrg:#2
+  label=code:#2
 }
 
 % 重定义标签引用的名称
 \crefname{commentCount}{comment}{comments}
 %\crefname{filePrg}{file program}{file programs}
 %\crefname{inputPrg}{input program}{input programs}
-\crefname{codeCount}{code}{codes}
+\crefname{codeCount}{代码}{代码}
 \begin{comment}
     1. minted介绍:
     minted可以提供比lstings更为灵活的源码高亮方式，minted支持的语言也更多。
@@ -1377,6 +1377,30 @@
 
 \end{comment}
 
+
+% ***** ****** ****** ****** ******
+% 删除线，下划线
+% ***** ****** ****** ****** ******
+\usepackage[normalem]{ulem}
+\begin{comment}
+  \uline{下划线}    % 下划线
+  \uuline{双下划线} % 双下划线
+  \uwave{波浪线}    % 波浪线
+  \sout{删除线}     % 删除线
+  \xout{斜删除线}   % 斜删除线
+\end{comment}
+
+
+% ***** ****** ****** ****** ******
+% 内容被删除(划掉)的效果
+% ***** ****** ****** ****** ******
+\usepackage{cancel}
+\begin{comment}
+  \cancel{公式内容}  或
+  \bcancel{公式内容}  或
+  \xcancel{公式内容}  或
+  \cancelto{新公式内容}{原公式内容}
+\end{comment}
 
 % ***** ****** ****** ****** ******
 % 自定义命令
