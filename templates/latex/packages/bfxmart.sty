@@ -1108,11 +1108,15 @@
   label=code:#2
 }
 
+\newcommand{\code}[1]{ {\mintinline{text}{#1}} }
+
 % 重定义标签引用的名称
 \crefname{commentCount}{comment}{comments}
 %\crefname{filePrg}{file program}{file programs}
 %\crefname{inputPrg}{input program}{input programs}
 \crefname{codeCount}{代码}{代码}
+
+
 \begin{comment}
     1. minted介绍:
     minted可以提供比lstings更为灵活的源码高亮方式，minted支持的语言也更多。
