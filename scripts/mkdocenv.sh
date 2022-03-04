@@ -28,6 +28,6 @@ function track_by_git()
 # ***** ***** ***** ***** *****
 # start from here
 # ***** ***** ***** ***** *****
-DIRS="docs codes figures outputs"
+DIRS="docs codes figures outputs others"
 mkdocdir
 track_by_git
