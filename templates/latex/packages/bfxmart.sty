@@ -952,7 +952,7 @@
   % 字体
   fontfamily=tt,
   % 字体大小
-  fontsize=\scriptsize,
+  %fontsize=\scriptsize,
   % 边框样式, 可配置参数有：none, leftline, topline, bottomline, lines, single
   %frame=single,
   % 边框线宽
@@ -1036,7 +1036,8 @@
   },
   minted language=text,
   minted style=tango,
-  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  minted options={breaklines,autogobble,linenos,numbersep=3mm,
+    fontsize=\scriptsize},
   label=cmdline:#1
 }
 
@@ -1059,7 +1060,8 @@
   },
   minted language=text,
   minted style=tango,
-  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  minted options={breaklines,autogobble,linenos,numbersep=3mm,
+    fontsize=\scriptsize},
   listing file={#1},
   label=cmdline:#2
 }
@@ -1088,7 +1090,8 @@
   }{\faCode},
   minted language=#1,
   minted style=tango,
-  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  minted options={breaklines,autogobble,linenos,numbersep=3mm,
+    fontsize=\scriptsize},
   listing file={#2},
   label=code:#4
 }
@@ -1117,7 +1120,8 @@
   }{\faCode},
   minted language=#1,
   minted style=tango,
-  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  minted options={breaklines,autogobble,linenos,numbersep=3mm,
+    fontsize=\scriptsize},
   label=code:#3
 }
 
