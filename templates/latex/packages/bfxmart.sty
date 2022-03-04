@@ -1018,78 +1018,107 @@
 }
 
 % 定义命令行输出框
-\newtcolorbox[use counter=cmdlineCount, number format=\arabic]{cmdlineOutput}[1]{
-  size=title,
-  arc=1.5mm,
-  breakable,
-  enhanced jigsaw,
-  colframe=black,
-  boxrule=0.5mm,
+\newtcblisting[use counter=cmdlineCount, number format=\arabic]{cmdlineOutput}[1]{
+  listing engine=minted,
+  boxrule=0.1mm,
   colback=black,
+  colframe=black,
   coltext=white,
-  label=cmdline:#1,
+  listing only,
+  left=5mm,
+  enhanced,
+  arc=1.5mm,
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[black] (frame.south west)
+      rectangle ([xshift=5mm]frame.north west);
+    \end{tcbclipinterior}
+  },
+  minted language=text,
+  minted style=tango,
+  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  label=cmdline:#1
 }
 
 % 从文件中插入命令行输出
-\newtcbinputlisting[use counter=cmdlineCount, number format=\arabic]
-  {\cmdlineFromFile}[2]{%
+\newtcbinputlisting[use counter=cmdlineCount, number format=\arabic]{\cmdlineFromFile}[2]{%
   listing engine=minted,
-  minted language=text,
-  listing file={#1},
-  minted options={autogobble,linenos,breaklines},
-  listing only,
-  size=title,
-  arc=1.5mm,
-  breakable,
-  enhanced jigsaw,
-  colframe=black,
-  boxrule=0.5mm,
+  boxrule=0.1mm,
   colback=black,
+  colframe=black,
   coltext=white,
-  label=code:#2
+  listing only,
+  left=5mm,
+  enhanced,
+  arc=1.5mm,
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[black] (frame.south west)
+      rectangle ([xshift=5mm]frame.north west);
+    \end{tcbclipinterior}
+  },
+  minted language=text,
+  minted style=tango,
+  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  listing file={#1},
+  label=cmdline:#2
 }
 
 % 定义从文件中插入代码的命令
 \newtcbinputlisting[use counter=codeCount, number format=\arabic]{\codeFromFile}[4]{%
   listing engine=minted,
-  minted language=#1,
-  listing file={#2},
-  minted options={autogobble,linenos,breaklines},
-  listing only,
-  size=title,
-  arc=1.5mm,
-  breakable,
-  enhanced jigsaw,
-  colframe=brown,
-  coltitle=white,
-  boxrule=0.5mm,
+  boxrule=0.1mm,
   colback=white,
+  colframe=blue!75!black,
   coltext=black,
+  coltitle=white,
+  size=title,
+  listing only,
+  left=5mm,
+  enhanced,
+  arc=1.5mm,
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[white] (frame.south west)
+      rectangle ([xshift=5mm]frame.north west);
+    \end{tcbclipinterior}
+  },
   title=\TwoSymbolsAndText{\faCode}{%
     \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}}%
   }{\faCode},
-  label=code:#4
+  minted language=#1,
+  minted style=tango,
+  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  listing file={#2},
+  label=cmdline:#4
 }
 
 % 定义嵌入式代码插入命令
 \newtcblisting[use counter=codeCount, number format=\arabic]{codeInput}[3]{
   listing engine=minted,
-  minted language=#1,
-  minted options={autogobble,linenos,breaklines},
-  listing only,
-  size=title,
-  arc=1.5mm,
-  breakable,
-  enhanced jigsaw,
-  colframe=brown,
-  coltitle=white,
-  boxrule=0.5mm,
+  boxrule=0.1mm,
   colback=white,
+  colframe=blue!75!black,
   coltext=black,
+  coltitle=white,
+  size=title,
+  listing only,
+  left=5mm,
+  enhanced,
+  arc=1.5mm,
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[white] (frame.south west)
+      rectangle ([xshift=5mm]frame.north west);
+    \end{tcbclipinterior}
+  },
   title=\TwoSymbolsAndText{\faCode}{%
-    \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}}%
+    \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}}%
   }{\faCode},
-  label=code:#3
+  minted language=#1,
+  minted style=tango,
+  minted options={breaklines,autogobble,linenos,numbersep=3mm},
+  label=cmdline:#3
 }
 
 % 定义嵌入式代码插入命令2
@@ -1115,7 +1144,6 @@
 %\crefname{filePrg}{file program}{file programs}
 %\crefname{inputPrg}{input program}{input programs}
 \crefname{codeCount}{代码}{代码}
-
 
 \begin{comment}
     1. minted介绍:
