@@ -1018,7 +1018,7 @@
 }
 
 % 定义命令行输出框
-\newtcblisting[use counter=cmdlineCount, number format=\arabic]{cmdlineOutput}[1]{
+\newtcblisting[use counter=cmdlineCount, number format=\arabic]{cmdlineInput}[1]{
   listing engine=minted,
   boxrule=0.1mm,
   colback=black,
@@ -1090,7 +1090,7 @@
   minted style=tango,
   minted options={breaklines,autogobble,linenos,numbersep=3mm},
   listing file={#2},
-  label=cmdline:#4
+  label=code:#4
 }
 
 % 定义嵌入式代码插入命令
@@ -1118,7 +1118,7 @@
   minted language=#1,
   minted style=tango,
   minted options={breaklines,autogobble,linenos,numbersep=3mm},
-  label=cmdline:#3
+  label=code:#3
 }
 
 % 定义嵌入式代码插入命令2
