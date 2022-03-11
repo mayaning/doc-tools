@@ -1272,6 +1272,44 @@
 % 图片宏包
 % ***** ****** ****** ****** ******
 \usepackage{graphicx}
+\usepackage{varwidth}
+
+\newcounter{figureCount}
+\crefname{figureCount}{图}{图}
+
+\newtcbox[use counter=figureCount, number format=\arabic]{\figureBox}[2]{
+  enhanced, before skip=2mm,after skip=2mm,
+  colback=black!5,colframe=black!50,boxrule=0.2mm,
+  attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+  varwidth boxed title*=-3cm,
+  boxed title style={frame code={
+    \path[fill=tcbcolback!30!black]
+      ([yshift=-1mm,xshift=-1mm]frame.north west)
+      arc[start angle=0,end angle=180,radius=1mm]
+      ([yshift=-1mm,xshift=1mm]frame.north east)
+      arc[start angle=180,end angle=0,radius=1mm];
+    \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,
+      middle color=tcbcolback!80!black]
+      ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+      [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+      -- (frame.south east) -- (frame.south west)
+      -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+      [sharp corners]-- cycle;
+    },interior engine=empty,
+  },
+  fonttitle=\bfseries,
+  title={#1},
+  colbacktitle=green,
+  label=fig:#2
+}
+
+% 自定义插入图片的快捷命令
+\newcommand{\figureFromFile}[3]{
+  \figureBox{#2}{#3}{
+    \includegraphics[width = \textwidth]{#1}
+  }
+}
+
 \begin{comment}
     用法：
     1. 使用\includegraphics命令进行插图
