@@ -1066,7 +1066,8 @@
   label=cmdline:#2
 }
 
-% 定义从文件中插入代码的命令
+\begin{comment}
+% 定义从文件中插入代码的命令 -- 样式1
 \newtcbinputlisting[use counter=codeCount, number format=\arabic]{\codeFromFile}[4]{%
   listing engine=minted,
   boxrule=0.1mm,
@@ -1095,8 +1096,49 @@
   listing file={#2},
   label=code:#4
 }
+\end{comment}
 
-% 定义嵌入式代码插入命令
+% 定义从文件中插入代码的命令 -- 样式2
+\newtcbinputlisting[use counter=codeCount, number format=\arabic]{\codeFromFile}[4]{%
+  enhanced, before skip=2mm,after skip=2mm,
+  colback=white,colframe=black!50,boxrule=0.2mm,
+  attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+  varwidth boxed title*=-3cm,
+  boxed title style={frame code={
+    \path[fill=tcbcolback!30!black]
+      ([yshift=-1mm,xshift=-1mm]frame.north west)
+      arc[start angle=0,end angle=180,radius=1mm]
+      ([yshift=-1mm,xshift=1mm]frame.north east)
+      arc[start angle=180,end angle=0,radius=1mm];
+    \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,
+      middle color=tcbcolback!80!black]
+      ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+      [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+      -- (frame.south east) -- (frame.south west)
+      -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+      [sharp corners]-- cycle;
+    },interior engine=empty,
+  },
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[white] (frame.south west)
+      rectangle ([xshift=5mm]frame.north west);
+    \end{tcbclipinterior}
+  },
+  colbacktitle=gray,
+  title=\textbf{代码 \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}},
+  label=code:#4,
+  listing engine=minted,
+  listing only,
+  minted language=#1,
+  minted style=tango,
+  minted options={breaklines,autogobble,linenos,numbersep=3mm,
+    fontsize=\scriptsize},
+  listing file={#2}
+}
+
+\begin{comment}
+% 定义嵌入式代码插入命令 -- 样式1
 \newtcblisting[use counter=codeCount, number format=\arabic]{codeInput}[3]{
   listing engine=minted,
   boxrule=0.1mm,
@@ -1116,7 +1158,7 @@
     \end{tcbclipinterior}
   },
   title=\TwoSymbolsAndText{\faCode}{%
-    \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}}%
+    \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}}%
   }{\faCode},
   minted language=#1,
   minted style=tango,
@@ -1124,8 +1166,47 @@
     fontsize=\scriptsize},
   label=code:#3
 }
+\end{comment}
 
-% 定义嵌入式代码插入命令2
+% 定义嵌入式代码插入命令 -- 样式2
+\newtcblisting[use counter=codeCount, number format=\arabic]{codeInput}[3]{
+  enhanced, before skip=2mm,after skip=2mm,
+  colback=white,colframe=black!50,boxrule=0.2mm,
+  attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+  varwidth boxed title*=-3cm,
+  boxed title style={frame code={
+    \path[fill=tcbcolback!30!black]
+      ([yshift=-1mm,xshift=-1mm]frame.north west)
+      arc[start angle=0,end angle=180,radius=1mm]
+      ([yshift=-1mm,xshift=1mm]frame.north east)
+      arc[start angle=180,end angle=0,radius=1mm];
+    \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,
+      middle color=tcbcolback!80!black]
+      ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+      [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+      -- (frame.south east) -- (frame.south west)
+      -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+      [sharp corners]-- cycle;
+    },interior engine=empty,
+  },
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[white] (frame.south west)
+      rectangle ([xshift=5mm]frame.north west);
+    \end{tcbclipinterior}
+  },
+  colbacktitle=gray,
+  title=\textbf{代码 \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}},
+  label=code:#3,
+  listing engine=minted,
+  listing only,
+  minted language=#1,
+  minted style=tango,
+  minted options={breaklines,autogobble,linenos,numbersep=3mm,
+    fontsize=\scriptsize}
+}
+
+% 定义嵌入式代码插入命令 -- 无边框
 \newtcblisting[use counter=codeCount, number format=\arabic]{codeInputSimple}[2]{
   listing engine=minted,
   minted language=#1,
@@ -1141,7 +1222,7 @@
   label=code:#2
 }
 
-\newcommand{\code}[1]{ {\mintinline{text}{#1}} }
+\newcommand{\code}[1]{{\mintinline{text}{#1}}}
 
 % 重定义标签引用的名称
 \crefname{commentCount}{comment}{comments}
@@ -1279,7 +1360,7 @@
 
 \newtcbox[use counter=figureCount, number format=\arabic]{\figureBox}[2]{
   enhanced, before skip=2mm,after skip=2mm,
-  colback=black!5,colframe=black!50,boxrule=0.2mm,
+  colback=white,colframe=black!50,boxrule=0.2mm,
   attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
   varwidth boxed title*=-3cm,
   boxed title style={frame code={
@@ -1299,15 +1380,18 @@
   },
   fonttitle=\bfseries,
   title={#1},
-  colbacktitle=green,
+  title=\textbf{图 \thetcbcounter}\ifthenelse{\equal{#1}{}}{}{\textbf{:} \textit{#1}},
+  colbacktitle=gray,
   label=fig:#2
 }
 
 % 自定义插入图片的快捷命令
 \newcommand{\figureFromFile}[3]{
-  \figureBox{#2}{#3}{
-    \includegraphics[width = \textwidth]{#1}
-  }
+  \begin{center}
+    \figureBox{#2}{#3}{
+      \includegraphics[width = 0.9\textwidth]{#1}
+    }
+  \end{center}
 }
 
 \begin{comment}
