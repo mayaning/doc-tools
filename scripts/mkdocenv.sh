@@ -28,6 +28,6 @@ function track_by_git()
 # ***** ***** ***** ***** *****
 # start from here
 # ***** ***** ***** ***** *****
-DIRS="docs codes figures outputs others"
+DIRS="docs codes figures outputs others uml"
 mkdocdir
 track_by_git
