@@ -1379,17 +1379,18 @@
     },interior engine=empty,
   },
   fonttitle=\bfseries,
-  title={#1},
-  title=\textbf{图 \thetcbcounter}\ifthenelse{\equal{#1}{}}{}{\textbf{:} \textit{#1}},
+  title=\textbf{图 \thetcbcounter:} \textit{#1},
+  %title=\textbf{图 \thetcbcounter}\ifthenelse{\equal{#1}{}}{}{\textbf{:} \textit{#1}},
   colbacktitle=gray,
   label=fig:#2
 }
 
 % 自定义插入图片的快捷命令
-\newcommand{\figureFromFile}[3]{
+\newcommand{\figureFromFile}[4][]{
   \begin{center}
-    \figureBox{#2}{#3}{
-      \includegraphics[width = 0.9\textwidth]{#1}
+    \figureBox{#3}{#4}{
+      \ifthenelse{\equal{#1}{}}{\includegraphics[width = 0.9\textwidth]{#2}}
+        {\includegraphics[scale = #1]{#2}}
     }
   \end{center}
 }
