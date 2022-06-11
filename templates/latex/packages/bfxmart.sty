@@ -1378,6 +1378,8 @@
       [sharp corners]-- cycle;
     },interior engine=empty,
   },
+  boxed title size=title,
+  width=0.9\textwidth,
   fonttitle=\bfseries,
   title=\textbf{图 \thetcbcounter:} \textit{#1},
   %title=\textbf{图 \thetcbcounter}\ifthenelse{\equal{#1}{}}{}{\textbf{:} \textit{#1}},
@@ -1389,8 +1391,28 @@
 \newcommand{\figureFromFile}[4][]{
   \begin{center}
     \figureBox{#3}{#4}{
-      \ifthenelse{\equal{#1}{}}{\includegraphics[width = 0.9\textwidth]{#2}}
-        {\includegraphics[scale = #1]{#2}}
+      \ifthenelse{\equal{#1}{}}{\includegraphics[width = 0.8\textwidth]{#2}}
+        {\includegraphics[width = {#1}\textwidth]{#2}}
+    }
+  \end{center}
+}
+
+% 并排插入两个图片
+\newcommand{\figureFromFileTwo}[4]{
+  \begin{center}
+    \figureBox{#3}{#4}{
+      %\foreach \n in {{#1},{#2}}
+      %  {
+      %    \begin{tcolorbox}[width=0.45\textwidth, 
+      %      colback=white,colframe=black!50, boxrule=0.2mm]
+      %      \includegraphics[width = 0.9\textwidth]{\n}
+      %    \end{tcolorbox}
+      \tcbsidebyside[width=0.9\textwidth, colback=white,colframe=black!50, 
+        boxrule=0mm]{
+        \includegraphics[width = 0.9\textwidth]{#1}
+      }{
+        \includegraphics[width = 0.9\textwidth]{#2}
+      }
     }
   \end{center}
 }
@@ -1619,13 +1641,32 @@
 \newcounter{warningCount} 
 % Warning -- 方框
 \newtcolorbox[use counter=warningCount, number format=\arabic]{warning}
-  {attach title to upper, after title={:\ }, title={\faInfoCircle\ WARN},
+  {attach title to upper, after title={:\ }, 
+  title={\faInfoCircle\ \textbf{WARN}},
   colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries,
   breakable}
 
 % Warning -- 上下线条
 \newtcolorbox[use counter=warningCount, number format=\arabic]{warningLines}
-  {attach title to upper, after title={:\ }, title={\faInfoCircle\ WARN},
+  {attach title to upper, after title={:\ }, 
+  title={\faInfoCircle\ \textbf{WARN}},
+  toprule=1pt, bottomrule=1pt, leftrule=0pt, rightrule=0pt, arc=0pt,
+  colback=white, breakable,
+  colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries}
+
+% 定义\fixme命令
+\newcounter{fixmeCount} 
+% fixme -- 方框
+\newtcolorbox[use counter=fixmeCount, number format=\arabic]{fixme}
+  {attach title to upper, after title={:\ }, 
+  title={\faTools\ \textbf{FIXME}},
+  colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries,
+  breakable}
+
+% fixme -- 上下线条
+\newtcolorbox[use counter=fixmeCount, number format=\arabic]{fixmeLines}
+  {attach title to upper, after title={:\ }, 
+  title={\faTools\ \textbf{FIXME}},
   toprule=1pt, bottomrule=1pt, leftrule=0pt, rightrule=0pt, arc=0pt,
   colback=white, breakable,
   colframe=white!40!black, coltitle=orange!95!black, fonttitle=\bfseries}
@@ -1634,17 +1675,18 @@
 \newcounter{noteCount} 
 % Note -- 方框
 \newtcolorbox[use counter=noteCount, number format=\arabic]{note}
-  {attach title to upper, after title={:\ }, title={\faEdit[regular]\ NOTE},
+  {attach title to upper, after title={:\ }, 
+  title={\faEdit[regular]\ \textbf{NOTE}},
   colframe=white!40!black, coltitle=green!75!black, fonttitle=\bfseries,
   breakable}
 
 % Note -- 上下线条
 \newtcolorbox[use counter=noteCount, number format=\arabic]{noteLines}
-  {attach title to upper, after title={:\ }, title={\faEdit[regular]\ NOTE},
+  {attach title to upper, after title={:\ },
+  title={\faEdit[regular]\ \textbf{NOTE}},
   toprule=1pt, bottomrule=1pt, leftrule=0pt, rightrule=0pt, arc=0pt,
   colback=white, breakable,
   colframe=white!40!black, coltitle=green!75!black, fonttitle=\bfseries}
-
 
 % ***** ****** ****** ****** ******
 % Latex特殊符号
@@ -1674,3 +1716,11 @@
   $\backslash$      \
   $-$               减号
 \end{comment}
+
+
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{float} 
+%\usepackage{subfigure}
+\usepackage{subcaption}
+
