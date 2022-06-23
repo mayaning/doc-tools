@@ -1,0 +1,48 @@
+% ***** ***** ***** ***** *****
+% 导言部分，用于引用宏包及命令定义
+% ***** ***** ***** ***** *****
+\documentclass[a4paper,11pt]{book}
+\usepackage{bfxmart}
+
+% 开始文档
+\begin{document}
+
+% The command \frontmatter in the book document class is used for
+% the first pages of the document, the page numbering style is set to Roman
+% numerals by this command
+\frontmatter 
+
+% ***** ***** ***** ***** *****
+% 封面，目录
+% ***** ***** ***** ***** *****
+\import{docs/00-TitlePage}{01-TitlePage.tex}
+\import{docs/00-TitlePage}{02-TableOfContents.tex}
+
+% the command \mainmatter resets the page numbering and changes the style to
+% Arabic
+\mainmatter
+
+% ***** ***** ***** ***** *****
+% 正文
+% ***** ***** ***** ***** *****
+
+\import{docs/01-文档简介}{00-文档简介.tex}
+\import{docs/02-架构描述方式}{00-架构描述方式.tex}
+\import{docs/03-架构设计目标}{00-架构设计目标.tex}
+\import{docs/04-架构设计原则}{00-架构设计原则.tex}
+\import{docs/05-逻辑架构视图}{00-逻辑架构视图.tex}
+\import{docs/06-开发架构视图}{00-开发架构视图.tex}
+\import{docs/07-运行架构视图}{00-运行架构视图.tex}
+\import{docs/08-物理架构视图}{00-物理架构视图.tex}
+\import{docs/09-数据架构视图}{00-数据架构视图.tex}
+\import{docs/10-关键质量属性的设计原理}{00-关键质量属性的设计原理.tex}
+
+% \backmatter disables the chapter numbering (suitable for the bibliography and
+% appendices).
+\backmatter 
+
+% ***** ***** ***** ***** *****
+% 参考文献
+% ***** ***** ***** ***** *****
+%\addcontentsline{toc}{section}{参考文献} %用来添加文献的标准方式
+\end{document}  %结束文档
