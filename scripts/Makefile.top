@@ -39,6 +39,7 @@ clean:
 	@rm -rf $(OUTPUT_DIR)/*.out
 	@rm -rf $(OUTPUT_DIR)/*.listing
 	@rm -rf $(OUTPUT_DIR)/_minted*
+	@rm -rf $(OUTPUT_DIR)/*.tex
 
 distclean:clean
 	@rm -rf $(OUTPUT_DIR)/*.pdf

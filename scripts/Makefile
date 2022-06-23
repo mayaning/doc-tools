@@ -25,6 +25,7 @@ clean:
 	rm -rf outputs/*.out
 	rm -rf outputs/*.listing
 	rm -rf outputs/_minted*
+	rm -rf outputs/*.tex
 
 # 清除编译生成的所有文件
 .PHONY: clean_all
