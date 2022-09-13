@@ -209,8 +209,7 @@
 \usepackage{multirow}
 \usepackage{diagbox}
 \usepackage{threeparttable}
-\usepackage{longtable}
-\usepackage{tabu}
+\usepackage{tabularray}
 \begin{comment}
 
     使用方法：
@@ -227,19 +226,49 @@
       \label{tab:tabularx}
     \end{table*}
 
+    \begin{tblr}[
+      theme = CustomisableTheme, % 可自定义主题模板（详见文档）
+      caption = {Table Caption},
+      label = {tab:table-label},
+      entry = {Short Caption in Category} % \listoftables 表格目录中出现的名称
+      ]{
+      width = .9\textwidth,
+      colspec = {X[1,c,m]|X[2,c,m]}, % 等同于tabularx中的 preamble
+      stretch = 1.5 % 有效快速的调整行高行间距的命令！！
+      }
+       \toptule
+       % 如需要使用 \toprule \bottomrule \midrule等booktabs内命令
+       % 一定要在导言区添加 \UseTblrLibrary{booktabs}
+        a part & b part \\
+       \midrule
+        c part & d part \\
+       \bottomrule
+    \end{tblr}
+
     上述方法制作的表格不能跨页，如果需要跨页的表格使用如下方法：
-    % X指定单元格内可自动换行; [5,l]和[15,l]中数字指定每个单元个占表格宽度的比例，
-    % 字母(l,c,r)指定单元格内对齐方式; to \textwidth指定表格宽度
-    \begin{longtabu} to \textwidth {X[25,l]X[75,l]} 
-      \toprule
-      item1 &item2 &item3 &item4  &item5 \\
-      \midrule
-      item1 &item2 &item3 &item4  &item5 \\
-      \bottomrule \\  %注意这个地方有\\
-      % 跨页表格中的caption与普通的caption不同，它也是表格中的一行
-      \caption{标准数字格式说明符}
-      \label{tab:contextKeywords}
-    \end{longtabu}
+    % 改变跨页时表尾默认的 “接续表”类字样
+    \DefTblrTemplate{contfoot-text}{default}{接续表}
+    % 改变跨页后下一页表标题后的 “（续表）”类字样
+    \DefTblrTemplate{conthead-text}{default}{（续表）}
+
+    \begin{longtblr}[
+        caption = {Caption of long table},
+        label = {tab:label-of-long-table},
+      ]{
+        width = \textwidth,
+        colspec = {p{5em} || X[2,l,m]  X[1,c,m]},
+        rowhead = 1, rowboat = 0, % 每个分页里表头表尾的数量
+      }
+        \hline
+        \SetCell[r=2,c=2]{c} % 直接设置合并单元格 2行2列 水平垂直居中
+        合并的格子 & ~ & % 合并后的格子必须保留 “&” 并空置
+        独立的格子1 \\
+
+        \cline{2-3}
+        ~ & ~ & 独立的格子2 \\
+        \hline
+    \end{longtblr}
+
 \end{comment}
 
 % ***** ****** ****** ****** ******
@@ -1011,6 +1040,12 @@
   boxrule=0.5mm,
   colback=white,
   coltext=black,
+  breakable,
+  %frame hidden,
+  %overlay broken = {
+  %  \draw[line width=0.2mm, black!50, rounded corners]
+  %  (frame.north west) rectangle (frame.south east);
+  %},
   title=\TwoSymbolsAndText{\faCheck}{%
     \textbf{Comment \thetcbcounter}\ifthenelse{\equal{#1}{}}{}{\textbf{:} \textit{#1}}%
   }{\faCheck},
@@ -1034,6 +1069,12 @@
       rectangle ([xshift=5mm]frame.north west);
     \end{tcbclipinterior}
   },
+  breakable,
+  %frame hidden,
+  %overlay broken = {
+  %  \draw[line width=0.2mm, black!50, rounded corners]
+  %  (frame.north west) rectangle (frame.south east);
+  %},
   minted language=text,
   minted style=tango,
   minted options={breaklines,autogobble,linenos,numbersep=1mm,
@@ -1058,6 +1099,12 @@
       rectangle ([xshift=5mm]frame.north west);
     \end{tcbclipinterior}
   },
+  breakable,
+  %frame hidden,
+  %overlay broken = {
+  %  \draw[line width=0.2mm, black!50, rounded corners]
+  %  (frame.north west) rectangle (frame.south east);
+  %},
   minted language=text,
   minted style=tango,
   minted options={breaklines,autogobble,linenos,numbersep=1mm,
@@ -1086,6 +1133,12 @@
       rectangle ([xshift=5mm]frame.north west);
     \end{tcbclipinterior}
   },
+  breakable,
+  %frame hidden,
+  %overlay broken = {
+  %  \draw[line width=0.2mm, black!50, rounded corners]
+  %  (frame.north west) rectangle (frame.south east);
+  %},
   title=\TwoSymbolsAndText{\faCode}{%
     \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}}%
   }{\faCode},
@@ -1099,8 +1152,10 @@
 \end{comment}
 
 % 定义从文件中插入代码的命令 -- 样式2
+%\codeFromFile{python}{codes/example.py}{示例代码}{Example}
 \newtcbinputlisting[use counter=codeCount, number format=\arabic]{\codeFromFile}[4]{%
-  enhanced, before skip=2mm,after skip=2mm,
+  enhanced, 
+  before skip=2mm,after skip=2mm,
   colback=white,colframe=black!50,boxrule=0.2mm,
   attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
   varwidth boxed title*=-3cm,
@@ -1126,6 +1181,12 @@
     \end{tcbclipinterior}
   },
   colbacktitle=gray,
+  breakable,
+  %frame hidden,
+  %overlay broken = {
+  %  \draw[line width=0.2mm, black!50, rounded corners]
+  %  (frame.north west) rectangle (frame.south east);
+  %},
   title=\textbf{代码 \thetcbcounter}\ifthenelse{\equal{#3}{}}{}{\textbf{:} \textit{#3}},
   label=code:#4,
   listing engine=minted,
@@ -1157,6 +1218,12 @@
       rectangle ([xshift=5mm]frame.north west);
     \end{tcbclipinterior}
   },
+  breakable,
+  %frame hidden,
+  %overlay broken = {
+  %  \draw[line width=0.2mm, black!50, rounded corners]
+  %  (frame.north west) rectangle (frame.south east);
+  %},
   title=\TwoSymbolsAndText{\faCode}{%
     \textbf{代码 \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}}%
   }{\faCode},
@@ -1196,6 +1263,12 @@
     \end{tcbclipinterior}
   },
   colbacktitle=gray,
+  breakable,
+  %frame hidden,
+  %overlay broken = {
+  %  \draw[line width=0.2mm, black!50, rounded corners]
+  %  (frame.north west) rectangle (frame.south east);
+  %},
   title=\textbf{代码 \thetcbcounter}\ifthenelse{\equal{#2}{}}{}{\textbf{:} \textit{#2}},
   label=code:#3,
   listing engine=minted,
@@ -1222,7 +1295,8 @@
   label=code:#2
 }
 
-\newcommand{\code}[1]{{\mintinline{text}{#1}}}
+%\newcommand{\code}[1]{{\mintinline{text}{#1}}}
+\newcommand{\code}[1]{{\lstinline[columns=fixed]{#1}}}
 
 % 重定义标签引用的名称
 \crefname{commentCount}{comment}{comments}
